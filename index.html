@@ -6,7 +6,7 @@
 <title>Megamind | Home</title>
 <style>
   /* Base & Reset */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; }
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #121212;
@@ -38,53 +38,53 @@
   }
   nav a.active { color: #0ff; }
   nav a.active::after {
-    content: '';
-    display: block;
-    margin: auto;
-    height: 2px;
-    width: 50%;
-    background: #0ff;
-    border-radius: 2px;
-    margin-top: 4px;
+    content:'';
+    display:block;
+    margin:auto;
+    height:2px;
+    width:50%;
+    background:#0ff;
+    border-radius:2px;
+    margin-top:4px;
   }
   nav a:hover { color: #0ff; }
 
   /* Main content */
-  main { max-width: 1000px; margin: auto; padding: 2rem 1rem; }
+  main { max-width: 1000px; margin:auto; padding:2rem 1rem; }
 
   section {
-    margin: 5rem 0;
-    padding: 3rem 2rem;
-    border-radius: 20px;
+    margin:5rem 0;
+    padding:3rem 2rem;
+    border-radius:20px;
     background: rgba(30,30,30,0.7);
     backdrop-filter: blur(8px);
     box-shadow: 0 10px 25px rgba(0,255,255,0.05);
-    opacity: 0;
+    opacity:0;
     transform: translateY(30px);
     transition: opacity 1s ease, transform 1s ease;
     position: relative;
     overflow: hidden;
   }
-  section.visible { opacity: 1; transform: translateY(0); }
+  section.visible { opacity:1; transform:translateY(0); }
 
-  h2 { margin-bottom: 1rem; color: #0ff; text-shadow: 0 0 6px #0ff; font-size: 2rem; }
-  p, li { font-size: 1.1rem; line-height: 1.6; }
+  h2 { margin-bottom:1rem; color:#0ff; text-shadow:0 0 6px #0ff; font-size:2rem; }
+  p, li { font-size:1.1rem; line-height:1.6; }
 
   /* Buttons */
   .button {
-    display: inline-block;
-    background: #0ff;
-    color: #121212;
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
-    text-decoration: none;
-    margin-top: 1rem;
-    font-weight: bold;
+    display:inline-block;
+    background:#0ff;
+    color:#121212;
+    padding:0.75rem 1.25rem;
+    border-radius:12px;
+    text-decoration:none;
+    margin-top:1rem;
+    font-weight:bold;
     transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
     box-shadow: 0 0 15px rgba(0,255,255,0.3);
   }
   .button:hover {
-    transform: translateY(-3px);
+    transform: translateY(-3px) rotate(-2deg);
     background: #00bfa5;
     box-shadow: 0 0 25px rgba(0,255,255,0.5);
   }
@@ -110,20 +110,20 @@
   }
 
   footer {
-    text-align: center;
-    padding: 2rem 1rem;
+    text-align:center;
+    padding:2rem 1rem;
     background: rgba(18,18,18,0.85);
     backdrop-filter: blur(10px);
-    color: #888;
+    color:#888;
   }
 
-  /* Floating shapes for ambient effect */
+  /* Floating shapes */
   .shape {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.1;
+    opacity:0.1;
     animation: float 15s infinite ease-in-out;
-    pointer-events: none;
+    pointer-events:none;
   }
   @keyframes float {
     0%,100%{ transform: translateY(0) translateX(0) rotate(0deg);}
@@ -131,12 +131,11 @@
   }
 
   /* Responsive */
-  @media (max-width: 600px){
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.5rem; }
-    .skills-list { flex-direction: column; }
+  @media (max-width:600px){
+    h1{ font-size:2rem; }
+    h2{ font-size:1.5rem; }
+    .skills-list{ flex-direction: column; }
   }
-
 </style>
 </head>
 <body>
@@ -157,7 +156,7 @@
     <div class="shape" style="width:80px;height:80px;top:10%;left:5%;background:#0ff;"></div>
     <div class="shape" style="width:100px;height:100px;top:20%;right:10%;background:#ff00ff;"></div>
     <h2>Hello, I am Megamind</h2>
-    <p>Welcome to my dark, clean, futuristic lair. I love coding, creating, and pushing boundaries online.</p>
+    <p>Welcome to my dark, futuristic lair. I love creating games in Unity, experimenting with VR, and building unique multiplayer experiences.</p>
     <a href="#about" class="button">Learn More</a>
   </section>
 
@@ -165,29 +164,29 @@
   <section id="about">
     <div class="shape" style="width:60px;height:60px;top:15%;right:15%;background:#0ff;"></div>
     <h2>About Me</h2>
-    <p>I’m Megamind — a thinker, creator, and explorer. I enjoy experimenting with tech, animations, and web design to create immersive experiences.</p>
+    <p>I’m Megamind — a Unity developer who enjoys building immersive experiences. I make Gorilla Tag fangames and other Unity-based projects, focusing on gameplay, VR interactions, and multiplayer fun.</p>
   </section>
 
   <!-- Skills -->
   <section id="skills">
     <h2>Skills</h2>
     <ul class="skills-list">
-      <li>HTML & CSS</li>
-      <li>JavaScript & Animations</li>
-      <li>Git & GitHub</li>
-      <li>Problem Solving</li>
-      <li>Design & UI/UX</li>
+      <li>Unity & C#</li>
+      <li>VR Game Development</li>
+      <li>Multiplayer Mechanics</li>
+      <li>3D Game Design</li>
+      <li>Problem Solving & Creativity</li>
     </ul>
   </section>
 
   <!-- Fun -->
   <section id="fun">
-    <h2>Fun Facts</h2>
+    <h2>Fun Projects</h2>
     <ul>
-      <li>Love coding with dark mode 🌙</li>
-      <li>Always learning new tech</li>
-      <li>This site is a live experiment 😎</li>
-      <li>Fan of sci-fi, neon, and sleek UI design</li>
+      <li>Specialize in Unity and VR games 🕹️</li>
+      <li>Make Gorilla Tag fangames 🦍</li>
+      <li>Experiment with multiplayer physics and mechanics</li>
+      <li>Always learning new techniques and tools</li>
     </ul>
   </section>
 </main>
@@ -197,16 +196,16 @@
 </footer>
 
 <script>
-  // Fade-in sections
+  // Fade-in sections on scroll
   const sections = document.querySelectorAll('section');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
       if(entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, {threshold:0.2});
-  sections.forEach(sec => observer.observe(sec));
+  sections.forEach(sec=>observer.observe(sec));
 
-  // Active nav
+  // Update active nav link on scroll
   const navLinks = document.querySelectorAll('nav a');
   window.addEventListener('scroll',()=>{
     let current='';
@@ -214,7 +213,10 @@
       const top = sec.offsetTop-150;
       if(pageYOffset>=top) current = sec.getAttribute('id');
     });
-    navLinks.forEach(link=>{link.classList.remove('active');if(link.getAttribute('href')=='#'+current) link.classList.add('active');});
+    navLinks.forEach(link=>{
+      link.classList.remove('active');
+      if(link.getAttribute('href')=='#'+current) link.classList.add('active');
+    });
   });
 </script>
 
