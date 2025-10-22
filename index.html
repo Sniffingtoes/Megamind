@@ -45,7 +45,15 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
 .node.central img { width:100px; height:100px; border:3px solid #0ff; }
 #connections { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
 
-@media(max-width:600px){ h1{ font-size:2rem; } h2{ font-size:1.5rem; } .skills-list{ flex-direction:column; } #tech-tree{ height:1000px; } .node img{ width:60px; height:60px; } .node.central img{ width:80px; height:80px; } }
+@media(max-width:600px){
+  h1{ font-size:2rem; }
+  h2{ font-size:1.5rem; }
+  .skills-list{ flex-direction:column; }
+  #tech-tree{ height:1000px; }
+  .node img{ width:60px; height:60px; }
+  .node.central img{ width:80px; height:80px; }
+  .node { transform-origin:center; }
+}
 </style>
 </head>
 <body>
@@ -107,24 +115,24 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
       <img src="https://cdn.discordapp.com/avatars/1343000539348074537/cf9b20be488a3dd31bde557177c52249.webp?size=128" alt="Megamind">
       <p>Megamind</p>
     </div>
-    <!-- Outer Nodes -->
-    <div class="node" data-name="DragonGT" style="top:100px; left:800px;">
+    <!-- Outer Nodes (closer) -->
+    <div class="node" data-name="DragonGT" style="top:150px; left:700px;">
       <img src="https://cdn.discordapp.com/avatars/1157882164260655217/eae6c1e5f94b6a2133d44c94b828f67e.webp?size=128" alt="DragonGT">
       <p>DragonGT</p>
     </div>
-    <div class="node" data-name="Edwin" style="top:50px; left:200px;">
+    <div class="node" data-name="Edwin" style="top:100px; left:300px;">
       <img src="https://cdn.discordapp.com/avatars/1374073000294355088/afd66be8626d0fc6753c4855e47a2ecb.webp?size=128" alt="Edwin">
       <p>Edwin</p>
     </div>
-    <div class="node" data-name="Sh8rkyVR" style="top:500px; left:100px;">
+    <div class="node" data-name="Sh8rkyVR" style="top:450px; left:250px;">
       <img src="https://cdn.discordapp.com/avatars/1322769189001363541/3ced537959c3f15d61a446448488cfee.webp?size=128" alt="Sh8rkyVR">
       <p>Sh8rkyVR</p>
     </div>
-    <div class="node" data-name="Bob" style="top:550px; left:700px;">
+    <div class="node" data-name="Bob" style="top:450px; left:700px;">
       <img src="https://cdn.discordapp.com/avatars/1335683003552366702/ab91a1202a9b65c802fd4704f8acc75d.webp?size=128" alt="Bob">
       <p>Bob</p>
     </div>
-    <div class="node" data-name="Moonlem" style="top:400px; left:900px;">
+    <div class="node" data-name="Moonlem" style="top:350px; left:850px;">
       <img src="https://cdn.discordapp.com/avatars/1189949917830058064/8dc82dbb46cf3aa19ddaaf195c3c7c4e.webp?size=128" alt="Moonlem">
       <p>Moonlem</p>
     </div>
@@ -162,7 +170,7 @@ for(let i=0;i<200;i++){ stars.push({x:Math.random()*w, y:Math.random()*h, r:Math
 function animateStars(){ ctxStar.clearRect(0,0,w,h); stars.forEach(s=>{ ctxStar.beginPath(); ctxStar.arc(s.x,s.y,s.r,0,Math.PI*2); ctxStar.fillStyle='#0ff'; ctxStar.fill(); s.x+=s.dx; s.y+=s.dy; if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0; }); requestAnimationFrame(animateStars); }
 animateStars();
 
-// Tech tree connections (hub-and-spoke)
+// Tech tree hub-and-spoke
 const nodes=document.querySelectorAll('.node');
 const canvasTree=document.getElementById('connections');
 const ctxTree=canvasTree.getContext('2d');
