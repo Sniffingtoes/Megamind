@@ -1,29 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home | Sniffingtoes</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sniffingtoes | Home</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Welcome to Sniffingtoes’ Website 🐾</h1>
-    <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About</a>
+    <h1 class="fade-in">Welcome to Sniffingtoes’ World 🐾</h1>
+    <nav class="fade-in">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#fun">Fun</a>
     </nav>
   </header>
 
   <main>
-    <section>
-      <h2>Hey there!</h2>
-      <p>Welcome to my little corner of the internet. I’m learning web development and building cool things here!</p>
+    <!-- Home Section -->
+    <section id="home" class="section home-section fade-in-up">
+      <h2>Hello there!</h2>
+      <p>Welcome to my corner of the internet. I’m learning web development and building fun projects!</p>
+      <a href="#about" class="button">Learn More About Me</a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section fade-in-up">
+      <h2>About Me</h2>
+      <p>Hi! I’m Sniffingtoes — a curious learner, creator, and explorer. I enjoy coding, design, and experimenting with web technologies.</p>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section fade-in-up">
+      <h2>Skills</h2>
+      <ul class="skills-list">
+        <li>HTML & CSS ✅</li>
+        <li>JavaScript & Animations ✨</li>
+        <li>Git & GitHub 💻</li>
+        <li>Problem Solving 🧠</li>
+      </ul>
+    </section>
+
+    <!-- Fun Section -->
+    <section id="fun" class="section fade-in-up">
+      <h2>Fun Facts</h2>
+      <ul>
+        <li>I love cats 🐱 and coding ☕</li>
+        <li>Learning web design one step at a time</li>
+        <li>This website itself is a project 😎</li>
+      </ul>
     </section>
   </main>
 
-  <footer>
+  <footer class="fade-in">
     <p>© 2025 Sniffingtoes | Made with ❤️ using GitHub Pages</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
