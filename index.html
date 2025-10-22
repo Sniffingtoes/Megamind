@@ -5,48 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Megamind | Home</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#121212; color:#eee; scroll-behavior:smooth; overflow-x:hidden; position:relative; }
-  canvas { position:fixed; top:0; left:0; z-index:-1; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#121212; color:#eee; scroll-behavior:smooth; overflow-x:hidden; position:relative; }
+canvas { position:fixed; top:0; left:0; z-index:-1; }
 
-  header { position:sticky; top:0; background: rgba(18,18,18,0.85); backdrop-filter:blur(10px); z-index:100; padding:1.5rem 1rem; text-align:center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  h1 { font-size:2.5rem; color:#0ff; text-shadow:0 0 10px #0ff; }
-  nav { margin-top:1rem; }
-  nav a { color:#aaa; text-decoration:none; margin:0 1rem; font-weight:bold; transition:0.3s; position:relative; }
-  nav a.active { color:#0ff; }
-  nav a.active::after { content:''; display:block; margin:auto; height:2px; width:50%; background:#0ff; border-radius:2px; margin-top:4px; }
-  nav a:hover { color:#0ff; }
+header { position:sticky; top:0; background: rgba(18,18,18,0.85); backdrop-filter:blur(10px); z-index:100; padding:1.5rem 1rem; text-align:center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+h1 { font-size:2.5rem; color:#0ff; text-shadow:0 0 10px #0ff; }
+nav { margin-top:1rem; }
+nav a { color:#aaa; text-decoration:none; margin:0 1rem; font-weight:bold; transition:0.3s; position:relative; }
+nav a.active { color:#0ff; }
+nav a.active::after { content:''; display:block; margin:auto; height:2px; width:50%; background:#0ff; border-radius:2px; margin-top:4px; }
+nav a:hover { color:#0ff; }
 
-  main { max-width:1000px; margin:auto; padding:2rem 1rem; }
+main { max-width:1000px; margin:auto; padding:2rem 1rem; }
 
-  section { margin:5rem 0; padding:3rem 2rem; border-radius:20px; background: rgba(30,30,30,0.7); backdrop-filter: blur(8px); box-shadow: 0 10px 25px rgba(0,255,255,0.05); opacity:0; transform:translateY(30px); transition: opacity 1s ease, transform 1s ease; position:relative; overflow:hidden; }
-  section.visible { opacity:1; transform:translateY(0); }
+section { margin:5rem 0; padding:3rem 2rem; border-radius:20px; background: rgba(30,30,30,0.7); backdrop-filter: blur(8px); box-shadow: 0 10px 25px rgba(0,255,255,0.05); opacity:0; transform:translateY(30px); transition: opacity 1s ease, transform 1s ease; position:relative; overflow:hidden; }
+section.visible { opacity:1; transform:translateY(0); }
 
-  h2 { margin-bottom:1rem; color:#0ff; text-shadow:0 0 6px #0ff; font-size:2rem; }
-  p, li { font-size:1.1rem; line-height:1.6; }
+h2 { margin-bottom:1rem; color:#0ff; text-shadow:0 0 6px #0ff; font-size:2rem; }
+p, li { font-size:1.1rem; line-height:1.6; }
 
-  .button { display:inline-block; background:#0ff; color:#121212; padding:0.75rem 1.25rem; border-radius:12px; text-decoration:none; margin-top:1rem; font-weight:bold; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; box-shadow:0 0 15px rgba(0,255,255,0.3); }
-  .button:hover { transform:translateY(-3px) rotate(-2deg); background:#00bfa5; box-shadow:0 0 25px rgba(0,255,255,0.5); }
+.button { display:inline-block; background:#0ff; color:#121212; padding:0.75rem 1.25rem; border-radius:12px; text-decoration:none; margin-top:1rem; font-weight:bold; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; box-shadow:0 0 15px rgba(0,255,255,0.3); }
+.button:hover { transform:translateY(-3px) rotate(-2deg); background:#00bfa5; box-shadow:0 0 25px rgba(0,255,255,0.5); }
 
-  .skills-list { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:1rem; }
-  .skills-list li { background: rgba(0,255,255,0.1); padding:0.5rem 1rem; border-radius:15px; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; }
-  .skills-list li:hover { transform: scale(1.15); background: rgba(0,255,255,0.3); box-shadow:0 0 20px rgba(0,255,255,0.3); }
+.skills-list { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:1rem; }
+.skills-list li { background: rgba(0,255,255,0.1); padding:0.5rem 1rem; border-radius:15px; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; }
+.skills-list li:hover { transform: scale(1.15); background: rgba(0,255,255,0.3); box-shadow:0 0 20px rgba(0,255,255,0.3); }
 
-  footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); backdrop-filter: blur(10px); color:#888; }
+footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); backdrop-filter: blur(10px); color:#888; }
 
-  .shape { position:absolute; border-radius:50%; opacity:0.1; animation: float 15s infinite ease-in-out; pointer-events:none; }
-  @keyframes float { 0%,100%{transform:translateY(0) translateX(0) rotate(0deg);} 50%{transform:translateY(-40px) translateX(20px) rotate(180deg);} }
+.shape { position:absolute; border-radius:50%; opacity:0.1; animation: float 15s infinite ease-in-out; pointer-events:none; }
+@keyframes float { 0%,100%{transform:translateY(0) translateX(0) rotate(0deg);} 50%{transform:translateY(-40px) translateX(20px) rotate(180deg);} }
 
-  /* Tech-tree Connect Section */
-  #tech-tree { position:relative; width:100%; height:500px; margin-top:2rem; }
-  .node { position:absolute; text-align:center; opacity:0; transform: scale(0.5); transition: transform 0.5s, opacity 0.5s; }
-  .node img { width:80px; height:80px; border-radius:50%; border:2px solid #0ff; transition: transform 0.3s, box-shadow 0.3s; }
-  .node img:hover { transform: scale(1.15); box-shadow:0 0 25px rgba(0,255,255,0.5); }
-  .node p { color:#0ff; font-weight:bold; margin-top:0.5rem; }
-  .node.central img { width:100px; height:100px; border:3px solid #0ff; }
-  #connections { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+#tech-tree { position:relative; width:100%; height:500px; margin-top:2rem; }
+.node { position:absolute; text-align:center; opacity:0; transform:scale(0.5); transition:transform 0.5s, opacity 0.5s; }
+.node img { width:80px; height:80px; border-radius:50%; border:2px solid #0ff; transition: transform 0.3s, box-shadow 0.3s; }
+.node img:hover { transform: scale(1.15); box-shadow:0 0 25px rgba(0,255,255,0.5); }
+.node p { color:#0ff; font-weight:bold; margin-top:0.5rem; }
+.node.central img { width:100px; height:100px; border:3px solid #0ff; }
+#connections { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
 
-  @media(max-width:600px){ h1{ font-size:2rem; } h2{ font-size:1.5rem; } .skills-list{ flex-direction:column; } #tech-tree{ height:700px; } .node img{ width:60px; height:60px; } .node.central img{ width:80px; height:80px; } }
+@media(max-width:600px){ h1{ font-size:2rem; } h2{ font-size:1.5rem; } .skills-list{ flex-direction:column; } #tech-tree{ height:700px; } .node img{ width:60px; height:60px; } .node.central img{ width:80px; height:80px; } }
 </style>
 </head>
 <body>
@@ -65,80 +64,78 @@
 </header>
 
 <main>
-  <!-- Home -->
-  <section id="home">
-    <div class="shape" style="width:80px;height:80px;top:10%;left:5%;background:#0ff;"></div>
-    <div class="shape" style="width:100px;height:100px;top:20%;right:10%;background:#ff00ff;"></div>
-    <div class="shape" style="width:50px;height:50px;top:30%;left:50%;background:#00ff00;"></div>
-    <h2>Hello, I am Megamind</h2>
-    <p>Welcome! I like making games in Unity, especially Gorilla Tag fangames and other VR projects.</p>
-    <a href="#about" class="button">Learn More</a>
-  </section>
+<!-- Home -->
+<section id="home">
+  <div class="shape" style="width:80px;height:80px;top:10%;left:5%;background:#0ff;"></div>
+  <div class="shape" style="width:100px;height:100px;top:20%;right:10%;background:#ff00ff;"></div>
+  <div class="shape" style="width:50px;height:50px;top:30%;left:50%;background:#00ff00;"></div>
+  <h2>Hello, I am Megamind</h2>
+  <p>Welcome! I like making games in Unity, especially Gorilla Tag fangames and other VR projects.</p>
+  <a href="#about" class="button">Learn More</a>
+</section>
 
-  <!-- About -->
-  <section id="about">
-    <div class="shape" style="width:60px;height:60px;top:15%;right:15%;background:#0ff;"></div>
-    <h2>About Me</h2>
-    <p>I’m Megamind — a Unity developer who enjoys building immersive games. I mainly make Gorilla Tag fangames and experiment with multiplayer VR experiences.</p>
-  </section>
+<!-- About -->
+<section id="about">
+  <div class="shape" style="width:60px;height:60px;top:15%;right:15%;background:#0ff;"></div>
+  <h2>About Me</h2>
+  <p>I’m Megamind — a Unity developer who enjoys building immersive games. I mainly make Gorilla Tag fangames and experiment with multiplayer VR experiences.</p>
+</section>
 
-  <!-- Skills -->
-  <section id="skills">
-    <h2>Skills</h2>
-    <ul class="skills-list">
-      <li>Unity & C# (beginner)</li>
-      <li>VR Game Development</li>
-      <li>Multiplayer Mechanics</li>
-      <li>Game Design Basics</li>
-    </ul>
-  </section>
+<!-- Skills -->
+<section id="skills">
+  <h2>Skills</h2>
+  <ul class="skills-list">
+    <li>Unity & C# (beginner)</li>
+    <li>VR Game Development</li>
+    <li>Multiplayer Mechanics</li>
+    <li>Game Design Basics</li>
+  </ul>
+</section>
 
-  <!-- Fun -->
-  <section id="fun">
-    <h2>Fun Projects</h2>
-    <ul>
-      <li>Unity and VR game projects 🕹️</li>
-      <li>Gorilla Tag fangames 🦍</li>
-      <li>Experimenting with multiplayer physics and interactions</li>
-      <li>Learning new techniques and tools continuously</li>
-    </ul>
-  </section>
+<!-- Fun -->
+<section id="fun">
+  <h2>Fun Projects</h2>
+  <ul>
+    <li>Unity and VR game projects 🕹️</li>
+    <li>Gorilla Tag fangames 🦍</li>
+    <li>Experimenting with multiplayer physics and interactions</li>
+    <li>Learning new techniques and tools continuously</li>
+  </ul>
+</section>
 
-  <!-- Connect / Tech-tree -->
-  <section id="connect">
-    <h2>Connect</h2>
-    <div id="tech-tree">
-      <!-- Central Node -->
-      <div class="node central" data-name="Megamind">
-        <img src="https://ui-avatars.com/api/?name=Megamind&background=0ff&color=121212&rounded=true&size=128" alt="Megamind">
-        <p>Megamind</p>
-      </div>
-
-      <!-- Friend Nodes -->
-      <div class="node" style="top:50px; left:200px;" data-name="Edwin">
-        <img src="https://ui-avatars.com/api/?name=Edwin&background=0ff&color=121212&rounded=true&size=128" alt="Edwin">
-        <p>Edwin</p>
-      </div>
-      <div class="node" style="top:200px; left:150px;" data-name="DragonGT">
-        <img src="https://ui-avatars.com/api/?name=DragonGT&background=0ff&color=121212&rounded=true&size=128" alt="DragonGT">
-        <p>DragonGT</p>
-      </div>
-      <div class="node" style="top:200px; left:300px;" data-name="Moonlem">
-        <img src="https://ui-avatars.com/api/?name=Moonlem&background=0ff&color=121212&rounded=true&size=128" alt="Moonlem">
-        <p>Moonlem</p>
-      </div>
-      <div class="node" style="top:350px; left:100px;" data-name="Sh8rkyVR">
-        <img src="https://ui-avatars.com/api/?name=Sh8rkyVR&background=0ff&color=121212&rounded=true&size=128" alt="Sh8rkyVR">
-        <p>Sh8rkyVR</p>
-      </div>
-      <div class="node" style="top:350px; left:250px;" data-name="Bob">
-        <img src="https://ui-avatars.com/api/?name=Bob&background=0ff&color=121212&rounded=true&size=128" alt="Bob">
-        <p>Bob</p>
-      </div>
-
-      <canvas id="connections"></canvas>
+<!-- Connect / Network Tech-tree -->
+<section id="connect">
+  <h2>Connect</h2>
+  <div id="tech-tree">
+    <!-- Nodes -->
+    <div class="node" data-name="Megamind" style="top:250px; left:400px;">
+      <img src="https://cdn.discordapp.com/avatars/1343000539348074537/cf9b20be488a3dd31bde557177c52249.webp?size=128" alt="Megamind">
+      <p>Megamind</p>
     </div>
-  </section>
+    <div class="node" data-name="Edwin" style="top:100px; left:150px;">
+      <img src="https://cdn.discordapp.com/avatars/1374073000294355088/afd66be8626d0fc6753c4855e47a2ecb.webp?size=128" alt="Edwin">
+      <p>Edwin</p>
+    </div>
+    <div class="node" data-name="DragonGT" style="top:200px; left:300px;">
+      <img src="https://cdn.discordapp.com/avatars/1157882164260655217/eae6c1e5f94b6a2133d44c94b828f67e.webp?size=128" alt="DragonGT">
+      <p>DragonGT</p>
+    </div>
+    <div class="node" data-name="Moonlem" style="top:300px; left:250px;">
+      <img src="https://cdn.discordapp.com/avatars/1189949917830058064/8dc82dbb46cf3aa19ddaaf195c3c7c4e.webp?size=128" alt="Moonlem">
+      <p>Moonlem</p>
+    </div>
+    <div class="node" data-name="Sh8rkyVR" style="top:350px; left:100px;">
+      <img src="https://cdn.discordapp.com/avatars/1322769189001363541/3ced537959c3f15d61a446448488cfee.webp?size=128" alt="Sh8rkyVR">
+      <p>Sh8rkyVR</p>
+    </div>
+    <div class="node" data-name="Bob" style="top:400px; left:250px;">
+      <img src="https://cdn.discordapp.com/avatars/1335683003552366702/ab91a1202a9b65c802fd4704f8acc75d.webp?size=128" alt="Bob">
+      <p>Bob</p>
+    </div>
+    <canvas id="connections"></canvas>
+  </div>
+</section>
+
 </main>
 
 <footer>
@@ -146,7 +143,7 @@
 </footer>
 
 <script>
-  // Fade-in sections on scroll
+  // Fade-in sections
   const sections = document.querySelectorAll('section');
   const observer = new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
@@ -155,7 +152,7 @@
   }, {threshold:0.2});
   sections.forEach(sec=>observer.observe(sec));
 
-  // Update active nav link on scroll
+  // Active nav
   const navLinks = document.querySelectorAll('nav a');
   window.addEventListener('scroll',()=>{
     let current='';
@@ -169,71 +166,66 @@
     });
   });
 
-  // Starfield background
+  // Starfield
   const canvasStar = document.getElementById('starfield');
   const ctxStar = canvasStar.getContext('2d');
-  let stars = [];
-  let w, h;
+  let stars = [], w, h;
   function resizeStars(){ w=canvasStar.width=window.innerWidth; h=canvasStar.height=window.innerHeight; }
   window.addEventListener('resize', resizeStars); resizeStars();
-  for(let i=0;i<200;i++){
-    stars.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2});
-  }
+  for(let i=0;i<200;i++){ stars.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2}); }
   function animateStars(){
     ctxStar.clearRect(0,0,w,h);
     stars.forEach(s=>{
       ctxStar.beginPath();
       ctxStar.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctxStar.fillStyle = '#0ff';
+      ctxStar.fillStyle='#0ff';
       ctxStar.fill();
-      s.x += s.dx; s.y += s.dy;
-      if(s.x<0) s.x=w; if(s.x>w) s.x=0;
-      if(s.y<0) s.y=h; if(s.y>h) s.y=0;
+      s.x+=s.dx; s.y+=s.dy;
+      if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0;
     });
     requestAnimationFrame(animateStars);
   }
   animateStars();
 
   // Tech-tree connections
+  const nodes = document.querySelectorAll('.node');
   const canvasTree = document.getElementById('connections');
   const ctxTree = canvasTree.getContext('2d');
-  function drawConnections(){
+  const connections = [
+    ['Megamind','Edwin'],
+    ['Megamind','DragonGT'],
+    ['Edwin','DragonGT'],
+    ['DragonGT','Moonlem'],
+    ['Edwin','Moonlem'],
+    ['Sh8rkyVR','Bob'],
+    ['Moonlem','Bob']
+  ];
+
+  function drawNetwork(){
     canvasTree.width = canvasTree.offsetWidth;
     canvasTree.height = canvasTree.offsetHeight;
     ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
-    const central = document.querySelector('.node.central img');
-    const centralX = central.offsetLeft + central.offsetWidth/2;
-    const centralY = central.offsetTop + central.offsetHeight/2;
-    const nodes = document.querySelectorAll('.node:not(.central)');
-    nodes.forEach((n,i)=>{
-      setTimeout(()=>{
-        n.style.opacity=1;
-        n.style.transform='scale(1)';
-      }, i*200);
-      const x = n.offsetLeft + n.offsetWidth/2;
-      const y = n.offsetTop + n.offsetHeight/2;
-      let progress=0;
-      const steps=30;
-      const lineInterval = setInterval(()=>{
-        progress++;
-        ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
-        nodes.forEach(other=>{
-          const ox=other.offsetLeft + other.offsetWidth/2;
-          const oy=other.offsetTop + other.offsetHeight/2;
-          ctxTree.strokeStyle='rgba(0,255,255,0.6)';
-          ctxTree.lineWidth=2;
-          ctxTree.beginPath();
-          ctxTree.moveTo(centralX,centralY);
-          ctxTree.lineTo(centralX + (ox-centralX)*(progress/steps), centralY + (oy-centralY)*(progress/steps));
-          ctxTree.stroke();
-        });
-        if(progress>=steps) clearInterval(lineInterval);
-      },15);
+    nodes.forEach((n,i)=>{ setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200); });
+    connections.forEach(conn=>{
+      const [aName,bName] = conn;
+      const a = [...nodes].find(n=>n.dataset.name===aName);
+      const b = [...nodes].find(n=>n.dataset.name===bName);
+      if(a && b){
+        const ax = a.offsetLeft + a.offsetWidth/2;
+        const ay = a.offsetTop + a.offsetHeight/2;
+        const bx = b.offsetLeft + b.offsetWidth/2;
+        const by = b.offsetTop + b.offsetHeight/2;
+        ctxTree.strokeStyle='rgba(0,255,255,0.6)';
+        ctxTree.lineWidth=2;
+        ctxTree.beginPath();
+        ctxTree.moveTo(ax,ay);
+        ctxTree.lineTo(bx,by);
+        ctxTree.stroke();
+      }
     });
   }
-  window.addEventListener('load', drawConnections);
-  window.addEventListener('resize', drawConnections);
+  window.addEventListener('load', drawNetwork);
+  window.addEventListener('resize', drawNetwork);
 </script>
-
 </body>
 </html>
