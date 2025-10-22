@@ -37,14 +37,16 @@
   .shape { position:absolute; border-radius:50%; opacity:0.1; animation: float 15s infinite ease-in-out; pointer-events:none; }
   @keyframes float { 0%,100%{transform:translateY(0) translateX(0) rotate(0deg);} 50%{transform:translateY(-40px) translateX(20px) rotate(180deg);} }
 
-  /* Connect Section */
-  .connect-cards { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:1rem; }
-  .connect-cards .card { background: rgba(0,255,255,0.1); backdrop-filter: blur(10px); border-radius:15px; padding:1rem; width:120px; text-align:center; box-shadow: 0 0 15px rgba(0,255,255,0.2); transition: transform 0.3s, box-shadow 0.3s; }
-  .connect-cards .card:hover { transform: translateY(-5px); box-shadow:0 0 25px rgba(0,255,255,0.4); }
-  .connect-cards .card img { width:80px; height:80px; border-radius:50%; margin-bottom:0.5rem; border:2px solid #0ff; }
-  .connect-cards .card p { font-weight:bold; color:#0ff; word-break: break-word; font-size:0.95rem; }
+  /* Tech-tree Connect Section */
+  #tech-tree { position:relative; width:100%; height:500px; margin-top:2rem; }
+  .node { position:absolute; text-align:center; }
+  .node img { width:80px; height:80px; border-radius:50%; border:2px solid #0ff; transition: transform 0.3s, box-shadow 0.3s; }
+  .node img:hover { transform: scale(1.15); box-shadow: 0 0 25px rgba(0,255,255,0.5); }
+  .node p { color:#0ff; font-weight:bold; margin-top:0.5rem; }
+  .node.central img { width:100px; height:100px; border:3px solid #0ff; }
+  #connections { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
 
-  @media(max-width:600px){ h1{ font-size:2rem; } h2{ font-size:1.5rem; } .skills-list, .connect-cards{ flex-direction:column; } .connect-cards .card{ width:100px; padding:0.75rem; } .connect-cards .card img{ width:60px; height:60px; } }
+  @media(max-width:600px){ h1{ font-size:2rem; } h2{ font-size:1.5rem; } .skills-list{ flex-direction:column; } #tech-tree{ height:700px; } .node img{ width:60px; height:60px; } .node.central img{ width:80px; height:80px; } }
 </style>
 </head>
 <body>
@@ -102,15 +104,35 @@
     </ul>
   </section>
 
-  <!-- Connect -->
+  <!-- Connect / Tech-tree -->
   <section id="connect">
     <h2>Connect</h2>
-    <div class="connect-cards">
-      <div class="card"><img src="https://ui-avatars.com/api/?name=edwin011075&background=0ff&color=121212&rounded=true&size=128" alt="@edwin011075"><p>@edwin011075</p></div>
-      <div class="card"><img src="https://ui-avatars.com/api/?name=dragongt_tiktok&background=0ff&color=121212&rounded=true&size=128" alt="@dragongt_tiktok"><p>@dragongt_tiktok</p></div>
-      <div class="card"><img src="https://ui-avatars.com/api/?name=moonlem.&background=0ff&color=121212&rounded=true&size=128" alt="@moonlem."><p>@moonlem.</p></div>
-      <div class="card"><img src="https://ui-avatars.com/api/?name=sh8rkyvr.&background=0ff&color=121212&rounded=true&size=128" alt="@sh8rkyvr."><p>@sh8rkyvr.</p></div>
-      <div class="card"><img src="https://ui-avatars.com/api/?name=bob_is_a_monkey_rat&background=0ff&color=121212&rounded=true&size=128" alt="@bob_is_a_monkey_rat"><p>@bob_is_a_monkey_rat</p></div>
+    <div id="tech-tree">
+      <div class="node central">
+        <img src="https://ui-avatars.com/api/?name=Megamind&background=0ff&color=121212&rounded=true&size=128" alt="Megamind">
+        <p>@Megamind</p>
+      </div>
+      <div class="node" style="top:50px; left:200px;">
+        <img src="https://ui-avatars.com/api/?name=edwin011075&background=0ff&color=121212&rounded=true&size=128" alt="@edwin011075">
+        <p>@edwin011075</p>
+      </div>
+      <div class="node" style="top:200px; left:150px;">
+        <img src="https://ui-avatars.com/api/?name=dragongt_tiktok&background=0ff&color=121212&rounded=true&size=128" alt="@dragongt_tiktok">
+        <p>@dragongt_tiktok</p>
+      </div>
+      <div class="node" style="top:200px; left:300px;">
+        <img src="https://ui-avatars.com/api/?name=moonlem.&background=0ff&color=121212&rounded=true&size=128" alt="@moonlem.">
+        <p>@moonlem.</p>
+      </div>
+      <div class="node" style="top:350px; left:100px;">
+        <img src="https://ui-avatars.com/api/?name=sh8rkyvr.&background=0ff&color=121212&rounded=true&size=128" alt="@sh8rkyvr.">
+        <p>@sh8rkyvr.</p>
+      </div>
+      <div class="node" style="top:350px; left:250px;">
+        <img src="https://ui-avatars.com/api/?name=bob_is_a_monkey_rat&background=0ff&color=121212&rounded=true&size=128" alt="@bob_is_a_monkey_rat">
+        <p>@bob_is_a_monkey_rat</p>
+      </div>
+      <canvas id="connections"></canvas>
     </div>
   </section>
 </main>
@@ -144,24 +166,24 @@
   });
 
   // Starfield background
-  const canvas = document.getElementById('starfield');
-  const ctx = canvas.getContext('2d');
+  const canvasStar = document.getElementById('starfield');
+  const ctxStar = canvasStar.getContext('2d');
   let stars = [];
   let w, h;
-  function resize(){ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; }
-  window.addEventListener('resize', resize); resize();
+  function resizeStars(){ w=canvasStar.width=window.innerWidth; h=canvasStar.height=window.innerHeight; }
+  window.addEventListener('resize', resizeStars); resizeStars();
 
   for(let i=0;i<200;i++){
     stars.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2});
   }
 
   function animateStars(){
-    ctx.clearRect(0,0,w,h);
+    ctxStar.clearRect(0,0,w,h);
     stars.forEach(s=>{
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle = '#0ff';
-      ctx.fill();
+      ctxStar.beginPath();
+      ctxStar.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctxStar.fillStyle = '#0ff';
+      ctxStar.fill();
       s.x += s.dx; s.y += s.dy;
       if(s.x<0) s.x=w; if(s.x>w) s.x=0;
       if(s.y<0) s.y=h; if(s.y>h) s.y=0;
@@ -169,6 +191,34 @@
     requestAnimationFrame(animateStars);
   }
   animateStars();
+
+  // Tech-tree connections
+  const canvasTree = document.getElementById('connections');
+  const ctxTree = canvasTree.getContext('2d');
+
+  function drawTree(){
+    canvasTree.width = canvasTree.offsetWidth;
+    canvasTree.height = canvasTree.offsetHeight;
+    ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
+    const central = document.querySelector('.node.central img');
+    const centralX = central.offsetLeft + central.offsetWidth/2;
+    const centralY = central.offsetTop + central.offsetHeight/2;
+
+    const nodes = document.querySelectorAll('.node:not(.central) img');
+    nodes.forEach(n=>{
+      const x = n.offsetLeft + n.offsetWidth/2;
+      const y = n.offsetTop + n.offsetHeight/2;
+      ctxTree.strokeStyle = 'rgba(0,255,255,0.6)';
+      ctxTree.lineWidth = 2;
+      ctxTree.beginPath();
+      ctxTree.moveTo(centralX, centralY);
+      ctxTree.lineTo(x, y);
+      ctxTree.stroke();
+    });
+  }
+
+  window.addEventListener('resize', drawTree);
+  drawTree();
 </script>
 
 </body>
