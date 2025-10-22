@@ -1,18 +1,22 @@
-/* General Page Styling */
+/* Reset & base */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f7fa;
-  color: #333;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
+  background: #f5f7fa;
+  color: #333;
+  scroll-behavior: smooth;
 }
 
 header {
-  background: #007acc;
+  background: linear-gradient(90deg, #007acc, #005a99);
   color: white;
   text-align: center;
   padding: 2rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 nav {
@@ -24,37 +28,31 @@ nav a {
   text-decoration: none;
   margin: 0 1rem;
   font-weight: bold;
-  transition: opacity 0.3s ease;
+  transition: color 0.3s;
 }
 
-nav a:hover {
-  opacity: 0.8;
-}
-
-nav a.active {
-  text-decoration: underline;
+nav a:hover, nav a.active {
+  color: #ffdd59;
 }
 
 main {
-  padding: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
+  padding: 2rem;
 }
 
-footer {
-  background: #222;
-  color: #bbb;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  margin-top: 2rem;
+.section {
+  margin-bottom: 5rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
-section {
-  margin-bottom: 2rem;
+h1, h2 {
+  margin-bottom: 1rem;
 }
 
-/* Optional Button Style */
 .button {
   display: inline-block;
   background: #007acc;
@@ -62,10 +60,57 @@ section {
   padding: 0.75rem 1.25rem;
   border-radius: 8px;
   text-decoration: none;
-  margin-top: 1rem;
-  transition: background 0.3s;
+  transition: transform 0.3s, background 0.3s;
 }
 
 .button:hover {
+  transform: translateY(-3px);
   background: #005a99;
+}
+
+/* Skills list */
+.skills-list {
+  list-style: none;
+  padding: 0;
+}
+
+.skills-list li {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: #e0f0ff;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.skills-list li:hover {
+  transform: scale(1.05);
+  background: #c0e0ff;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #222;
+  color: #bbb;
+}
+
+/* Animations */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
 }
