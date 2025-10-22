@@ -39,9 +39,9 @@
 
   /* Tech-tree Connect Section */
   #tech-tree { position:relative; width:100%; height:500px; margin-top:2rem; }
-  .node { position:absolute; text-align:center; }
+  .node { position:absolute; text-align:center; opacity:0; transform: scale(0.5); transition: transform 0.5s, opacity 0.5s; }
   .node img { width:80px; height:80px; border-radius:50%; border:2px solid #0ff; transition: transform 0.3s, box-shadow 0.3s; }
-  .node img:hover { transform: scale(1.15); box-shadow: 0 0 25px rgba(0,255,255,0.5); }
+  .node img:hover { transform: scale(1.15); box-shadow:0 0 25px rgba(0,255,255,0.5); }
   .node p { color:#0ff; font-weight:bold; margin-top:0.5rem; }
   .node.central img { width:100px; height:100px; border:3px solid #0ff; }
   #connections { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
@@ -108,30 +108,34 @@
   <section id="connect">
     <h2>Connect</h2>
     <div id="tech-tree">
-      <div class="node central">
+      <!-- Central Node -->
+      <div class="node central" data-name="Megamind">
         <img src="https://ui-avatars.com/api/?name=Megamind&background=0ff&color=121212&rounded=true&size=128" alt="Megamind">
-        <p>@Megamind</p>
+        <p>Megamind</p>
       </div>
-      <div class="node" style="top:50px; left:200px;">
-        <img src="https://ui-avatars.com/api/?name=edwin011075&background=0ff&color=121212&rounded=true&size=128" alt="@edwin011075">
-        <p>@edwin011075</p>
+
+      <!-- Friend Nodes -->
+      <div class="node" style="top:50px; left:200px;" data-name="Edwin">
+        <img src="https://ui-avatars.com/api/?name=Edwin&background=0ff&color=121212&rounded=true&size=128" alt="Edwin">
+        <p>Edwin</p>
       </div>
-      <div class="node" style="top:200px; left:150px;">
-        <img src="https://ui-avatars.com/api/?name=dragongt_tiktok&background=0ff&color=121212&rounded=true&size=128" alt="@dragongt_tiktok">
-        <p>@dragongt_tiktok</p>
+      <div class="node" style="top:200px; left:150px;" data-name="DragonGT">
+        <img src="https://ui-avatars.com/api/?name=DragonGT&background=0ff&color=121212&rounded=true&size=128" alt="DragonGT">
+        <p>DragonGT</p>
       </div>
-      <div class="node" style="top:200px; left:300px;">
-        <img src="https://ui-avatars.com/api/?name=moonlem.&background=0ff&color=121212&rounded=true&size=128" alt="@moonlem.">
-        <p>@moonlem.</p>
+      <div class="node" style="top:200px; left:300px;" data-name="Moonlem">
+        <img src="https://ui-avatars.com/api/?name=Moonlem&background=0ff&color=121212&rounded=true&size=128" alt="Moonlem">
+        <p>Moonlem</p>
       </div>
-      <div class="node" style="top:350px; left:100px;">
-        <img src="https://ui-avatars.com/api/?name=sh8rkyvr.&background=0ff&color=121212&rounded=true&size=128" alt="@sh8rkyvr.">
-        <p>@sh8rkyvr.</p>
+      <div class="node" style="top:350px; left:100px;" data-name="Sh8rkyVR">
+        <img src="https://ui-avatars.com/api/?name=Sh8rkyVR&background=0ff&color=121212&rounded=true&size=128" alt="Sh8rkyVR">
+        <p>Sh8rkyVR</p>
       </div>
-      <div class="node" style="top:350px; left:250px;">
-        <img src="https://ui-avatars.com/api/?name=bob_is_a_monkey_rat&background=0ff&color=121212&rounded=true&size=128" alt="@bob_is_a_monkey_rat">
-        <p>@bob_is_a_monkey_rat</p>
+      <div class="node" style="top:350px; left:250px;" data-name="Bob">
+        <img src="https://ui-avatars.com/api/?name=Bob&background=0ff&color=121212&rounded=true&size=128" alt="Bob">
+        <p>Bob</p>
       </div>
+
       <canvas id="connections"></canvas>
     </div>
   </section>
@@ -172,11 +176,9 @@
   let w, h;
   function resizeStars(){ w=canvasStar.width=window.innerWidth; h=canvasStar.height=window.innerHeight; }
   window.addEventListener('resize', resizeStars); resizeStars();
-
   for(let i=0;i<200;i++){
     stars.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2});
   }
-
   function animateStars(){
     ctxStar.clearRect(0,0,w,h);
     stars.forEach(s=>{
@@ -195,30 +197,42 @@
   // Tech-tree connections
   const canvasTree = document.getElementById('connections');
   const ctxTree = canvasTree.getContext('2d');
-
-  function drawTree(){
+  function drawConnections(){
     canvasTree.width = canvasTree.offsetWidth;
     canvasTree.height = canvasTree.offsetHeight;
     ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
     const central = document.querySelector('.node.central img');
     const centralX = central.offsetLeft + central.offsetWidth/2;
     const centralY = central.offsetTop + central.offsetHeight/2;
-
-    const nodes = document.querySelectorAll('.node:not(.central) img');
-    nodes.forEach(n=>{
+    const nodes = document.querySelectorAll('.node:not(.central)');
+    nodes.forEach((n,i)=>{
+      setTimeout(()=>{
+        n.style.opacity=1;
+        n.style.transform='scale(1)';
+      }, i*200);
       const x = n.offsetLeft + n.offsetWidth/2;
       const y = n.offsetTop + n.offsetHeight/2;
-      ctxTree.strokeStyle = 'rgba(0,255,255,0.6)';
-      ctxTree.lineWidth = 2;
-      ctxTree.beginPath();
-      ctxTree.moveTo(centralX, centralY);
-      ctxTree.lineTo(x, y);
-      ctxTree.stroke();
+      let progress=0;
+      const steps=30;
+      const lineInterval = setInterval(()=>{
+        progress++;
+        ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
+        nodes.forEach(other=>{
+          const ox=other.offsetLeft + other.offsetWidth/2;
+          const oy=other.offsetTop + other.offsetHeight/2;
+          ctxTree.strokeStyle='rgba(0,255,255,0.6)';
+          ctxTree.lineWidth=2;
+          ctxTree.beginPath();
+          ctxTree.moveTo(centralX,centralY);
+          ctxTree.lineTo(centralX + (ox-centralX)*(progress/steps), centralY + (oy-centralY)*(progress/steps));
+          ctxTree.stroke();
+        });
+        if(progress>=steps) clearInterval(lineInterval);
+      },15);
     });
   }
-
-  window.addEventListener('resize', drawTree);
-  drawTree();
+  window.addEventListener('load', drawConnections);
+  window.addEventListener('resize', drawConnections);
 </script>
 
 </body>
