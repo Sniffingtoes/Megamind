@@ -163,40 +163,29 @@ const nodes=document.querySelectorAll('.node');
 const canvasTree=document.getElementById('connections');
 const ctxTree=canvasTree.getContext('2d');
 
-// Fully connected network
-const connections=[
-  ['Megamind','Edwin'],['Megamind','DragonGT'],['Megamind','Moonlem'],['Megamind','Sh8rkyVR'],['Megamind','Bob'],
-  ['Edwin','DragonGT'],['Edwin','Moonlem'],['Edwin','Sh8rkyVR'],['Edwin','Bob'],
-  ['DragonGT','Moonlem'],['DragonGT','Sh8rkyVR'],['DragonGT','Bob'],
-  ['Moonlem','Sh8rkyVR'],['Moonlem','Bob'],
-  ['Sh8rkyVR','Bob']
-];
-
-function drawNetwork(){
+function drawSingleLineNetwork(){
   canvasTree.width=canvasTree.offsetWidth;
   canvasTree.height=canvasTree.offsetHeight;
   ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
+
   nodes.forEach((n,i)=>{ setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200); });
-  connections.forEach(conn=>{
-    const [aName,bName]=conn;
-    const a=[...nodes].find(n=>n.dataset.name===aName);
-    const b=[...nodes].find(n=>n.dataset.name===bName);
-    if(a && b){
-      const ax=a.offsetLeft+a.offsetWidth/2;
-      const ay=a.offsetTop+a.offsetHeight/2;
-      const bx=b.offsetLeft+b.offsetWidth/2;
-      const by=b.offsetTop+b.offsetHeight/2;
-      ctxTree.strokeStyle='rgba(0,255,255,0.6)';
-      ctxTree.lineWidth=2;
-      ctxTree.beginPath();
-      ctxTree.moveTo(ax,ay);
-      ctxTree.lineTo(bx,by);
-      ctxTree.stroke();
+
+  if(nodes.length>0){
+    ctxTree.strokeStyle='rgba(0,255,255,0.6)';
+    ctxTree.lineWidth=2;
+    ctxTree.beginPath();
+    const first = nodes[0];
+    ctxTree.moveTo(first.offsetLeft+first.offsetWidth/2, first.offsetTop+first.offsetHeight/2);
+    for(let i=1;i<nodes.length;i++){
+      const n = nodes[i];
+      ctxTree.lineTo(n.offsetLeft+n.offsetWidth/2, n.offsetTop+n.offsetHeight/2);
     }
-  });
+    ctxTree.stroke();
+  }
 }
-window.addEventListener('load',drawNetwork);
-window.addEventListener('resize',drawNetwork);
+
+window.addEventListener('load', drawSingleLineNetwork);
+window.addEventListener('resize', drawSingleLineNetwork);
 </script>
 </body>
 </html>
