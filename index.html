@@ -9,7 +9,6 @@
   body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#121212; color:#eee; scroll-behavior:smooth; overflow-x:hidden; position:relative; }
   canvas { position:fixed; top:0; left:0; z-index:-1; }
 
-  /* Header */
   header { position:sticky; top:0; background: rgba(18,18,18,0.85); backdrop-filter:blur(10px); z-index:100; padding:1.5rem 1rem; text-align:center; border-bottom: 1px solid rgba(255,255,255,0.05); }
   h1 { font-size:2.5rem; color:#0ff; text-shadow:0 0 10px #0ff; }
   nav { margin-top:1rem; }
@@ -35,16 +34,17 @@
 
   footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); backdrop-filter: blur(10px); color:#888; }
 
-  /* Connect Section */
-  .connect-list { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:1rem; }
-  .connect-list li { background: rgba(0,255,255,0.1); padding:0.75rem 1.5rem; border-radius:15px; font-weight:bold; text-align:center; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; cursor:pointer; }
-  .connect-list li:hover { transform: scale(1.1); background: rgba(0,255,255,0.3); box-shadow:0 0 20px rgba(0,255,255,0.3); }
-
-  /* Floating shapes */
   .shape { position:absolute; border-radius:50%; opacity:0.1; animation: float 15s infinite ease-in-out; pointer-events:none; }
   @keyframes float { 0%,100%{transform:translateY(0) translateX(0) rotate(0deg);} 50%{transform:translateY(-40px) translateX(20px) rotate(180deg);} }
 
-  @media(max-width:600px){ h1{ font-size:2rem; } h2{ font-size:1.5rem; } .skills-list, .connect-list{ flex-direction:column; } }
+  /* Connect Section */
+  .connect-cards { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:1rem; }
+  .connect-cards .card { background: rgba(0,255,255,0.1); backdrop-filter: blur(10px); border-radius:15px; padding:1rem; width:120px; text-align:center; box-shadow: 0 0 15px rgba(0,255,255,0.2); transition: transform 0.3s, box-shadow 0.3s; }
+  .connect-cards .card:hover { transform: translateY(-5px); box-shadow:0 0 25px rgba(0,255,255,0.4); }
+  .connect-cards .card img { width:80px; height:80px; border-radius:50%; margin-bottom:0.5rem; border:2px solid #0ff; }
+  .connect-cards .card p { font-weight:bold; color:#0ff; word-break: break-word; font-size:0.95rem; }
+
+  @media(max-width:600px){ h1{ font-size:2rem; } h2{ font-size:1.5rem; } .skills-list, .connect-cards{ flex-direction:column; } .connect-cards .card{ width:100px; padding:0.75rem; } .connect-cards .card img{ width:60px; height:60px; } }
 </style>
 </head>
 <body>
@@ -105,14 +105,13 @@
   <!-- Connect -->
   <section id="connect">
     <h2>Connect</h2>
-    <ul class="connect-list">
-      <li onclick="copyDiscord('edwin011075')">edwin011075</li>
-      <li onclick="copyDiscord('dragongt_tiktok')">dragongt_tiktok</li>
-      <li onclick="copyDiscord('moonlem.')">moonlem.</li>
-      <li onclick="copyDiscord('sh8rkyvr.')">sh8rkyvr.</li>
-      <li onclick="copyDiscord('bob_is_a_monkey_rat')">bob_is_a_monkey_rat</li>
-    </ul>
-    <p style="margin-top:1rem; font-size:0.9rem; color:#aaa;">Click a username to copy to clipboard!</p>
+    <div class="connect-cards">
+      <div class="card"><img src="https://via.placeholder.com/80" alt="@edwin011075"><p>@edwin011075</p></div>
+      <div class="card"><img src="https://via.placeholder.com/80" alt="@dragongt_tiktok"><p>@dragongt_tiktok</p></div>
+      <div class="card"><img src="https://via.placeholder.com/80" alt="@moonlem."><p>@moonlem.</p></div>
+      <div class="card"><img src="https://via.placeholder.com/80" alt="@sh8rkyvr."><p>@sh8rkyvr.</p></div>
+      <div class="card"><img src="https://via.placeholder.com/80" alt="@bob_is_a_monkey_rat"><p>@bob_is_a_monkey_rat</p></div>
+    </div>
   </section>
 </main>
 
@@ -143,11 +142,6 @@
       if(link.getAttribute('href')=='#'+current) link.classList.add('active');
     });
   });
-
-  // Copy Discord username
-  function copyDiscord(name){
-    navigator.clipboard.writeText(name).then(()=>{ alert(`Copied ${name} to clipboard!`); });
-  }
 
   // Starfield background
   const canvas = document.getElementById('starfield');
