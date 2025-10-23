@@ -126,12 +126,6 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
   </div>
 </section>
 
-<section id="rickroll" style="display:none;">
-  <iframe id="rickIframe" width="560" height="315" src="" title="Rickroll" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</section>
-
-</main>
-
 <footer>
   <p>© 2025 Megamind | Built with ❤️</p>
 </footer>
@@ -140,8 +134,14 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
 // Click title → Rickroll
 document.getElementById('title').addEventListener('click', () => {
   const rick = document.getElementById('rickroll');
-  const iframe = document.getElementById('rickIframe');
+  const iframe = document.createElement('iframe');
+  iframe.width = 560;
+  iframe.height = 315;
   iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+  iframe.frameBorder = 0;
+  iframe.allow = "autoplay; encrypted-media";
+  iframe.allowFullscreen = true;
+  rick.appendChild(iframe);
   rick.style.display = 'block';
   rick.scrollIntoView({behavior:'smooth'});
 });
@@ -156,7 +156,7 @@ const observer = new IntersectionObserver(entries => {
 }, {threshold:0.2});
 sections.forEach(sec => observer.observe(sec));
 
-// Starfield background
+// Starfield
 const canvasStar = document.getElementById('starfield');
 const ctxStar = canvasStar.getContext('2d');
 let stars=[], w, h;
@@ -166,65 +166,68 @@ for(let i=0;i<200;i++){ stars.push({x:Math.random()*w, y:Math.random()*h, r:Math
 function animateStars(){ ctxStar.clearRect(0,0,w,h); stars.forEach(s=>{ ctxStar.beginPath(); ctxStar.arc(s.x,s.y,s.r,0,Math.PI*2); ctxStar.fillStyle='#0ff'; ctxStar.fill(); s.x+=s.dx; s.y+=s.dy; if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0; }); requestAnimationFrame(animateStars); }
 animateStars();
 
-// Animated hub-and-spoke tech tree
+// Animated hub-and-spoke tech tree with moving lights
 const nodes = document.querySelectorAll('.node');
 const canvasTree = document.getElementById('connections');
 const ctxTree = canvasTree.getContext('2d');
 
-function drawAnimatedHub() {
+function animateTechTree(){
   canvasTree.width = canvasTree.offsetWidth;
   canvasTree.height = canvasTree.offsetHeight;
   ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
 
-  nodes.forEach((n,i) => setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200));
-
   const centerNode = [...nodes].find(n => n.dataset.name==='Megamind');
-  if(!centerNode) return;
   const cx = centerNode.offsetLeft + centerNode.offsetWidth/2;
   const cy = centerNode.offsetTop + centerNode.offsetHeight/2;
 
-  nodes.forEach(n => {
-    if(n.dataset.name==='Megamind') return;
+  nodes.forEach((n,i)=> setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200));
+
+  const lines = [...nodes].filter(n => n.dataset.name!=='Megamind').map(n => {
     const x = n.offsetLeft + n.offsetWidth/2;
     const y = n.offsetTop + n.offsetHeight/2;
-    let progress = 0;
+    return {x1:cx,y1:cy,x2:x,y2:y, progress:0};
+  });
 
-    function animateLine(){
-      progress += 0.02;
-      if(progress > 1) progress = 1;
+  function animateLines(){
+    ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
 
-      // draw already fully drawn lines
-      ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
-      nodes.forEach(other => {
-        if(other.dataset.name!=='Megamind' && other!==n){
-          const ox = other.offsetLeft + other.offsetWidth/2;
-          const oy = other.offsetTop + other.offsetHeight/2;
-          ctxTree.strokeStyle='rgba(0,255,255,0.3)';
-          ctxTree.lineWidth=2;
-          ctxTree.beginPath();
-          ctxTree.moveTo(cx,cy);
-          ctxTree.lineTo(ox,oy);
-          ctxTree.stroke();
-        }
-      });
+    lines.forEach(line => {
+      // Increment progress
+      line.progress += 0.02;
+      if(line.progress>1) line.progress=1;
 
-      // draw current line
-      ctxTree.strokeStyle='rgba(0,255,255,0.8)';
+      // Draw full line as background
+      ctxTree.strokeStyle='rgba(0,255,255,0.2)';
       ctxTree.lineWidth=2;
       ctxTree.beginPath();
-      ctxTree.moveTo(cx,cy);
-      ctxTree.lineTo(cx + (x-cx)*progress, cy + (y-cy)*progress);
+      ctxTree.moveTo(line.x1,line.y1);
+      ctxTree.lineTo(line.x2,line.y2);
       ctxTree.stroke();
 
-      if(progress < 1) requestAnimationFrame(animateLine);
-    }
+      // Draw moving pulse
+      const px = line.x1 + (line.x2-line.x1)*line.progress;
+      const py = line.y1 + (line.y2-line.y1)*line.progress + Math.sin(Date.now()/200)*5;
+      ctxTree.strokeStyle='rgba(0,255,255,0.8)';
+      ctxTree.beginPath();
+      ctxTree.moveTo(line.x1,line.y1);
+      ctxTree.lineTo(px,py);
+      ctxTree.stroke();
 
-    setTimeout(animateLine, 200);
-  });
+      // Draw the glowing dot
+      ctxTree.fillStyle='rgba(0,255,255,1)';
+      ctxTree.beginPath();
+      ctxTree.arc(px,py,4,0,Math.PI*2);
+      ctxTree.fill();
+    });
+
+    requestAnimationFrame(animateLines);
+  }
+
+  animateLines();
 }
 
-window.addEventListener('load', drawAnimatedHub);
-window.addEventListener('resize', drawAnimatedHub);
+window.addEventListener('load', animateTechTree);
+window.addEventListener('resize', animateTechTree);
 </script>
 </body>
 </html>
