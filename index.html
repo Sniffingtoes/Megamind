@@ -33,6 +33,12 @@ header h1:hover {
   color:#00bfa5;
   text-shadow:0 0 20px #00bfa5;
 }
+#top-text {
+  font-size:1.5rem;
+  color:#0ff;
+  text-shadow:0 0 10px #0ff;
+  font-weight:bold;
+}
 .status {
   width:15px;
   height:15px;
@@ -69,6 +75,7 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
 
 @media(max-width:600px){
   header h1{ font-size:1.5rem; }
+  #top-text { font-size:1.2rem; }
   #tech-tree{ height:900px; }
   .node img{ width:60px; height:60px; }
   .node.central img{ width:80px; height:80px; }
@@ -80,6 +87,7 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
 <canvas id="starfield"></canvas>
 
 <header>
+  <div id="top-text">Megamind</div>
   <div class="status" title="Wildbound: Inactive/Development"></div>
   <h1>Wildbound</h1>
 </header>
@@ -117,6 +125,10 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
     <li>Gorilla Tag fangames 🦍</li>
     <li>Experimenting with multiplayer physics and interactions</li>
     <li>Learning new techniques and tools continuously</li>
+    <li>
+      Wildbound Game Status: 
+      <span class="status" style="box-shadow:0 0 10px #ff0000,0 0 20px #ff0000;background:red;"></span> Inactive
+    </li>
   </ul>
 </section>
 
@@ -203,11 +215,8 @@ function animateTechTree(){
     ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
 
     lines.forEach(line => {
-      // Increment progress
       line.progress += 0.02;
       if(line.progress>1) line.progress=1;
-
-      // Draw full line as background
       ctxTree.strokeStyle='rgba(0,255,255,0.2)';
       ctxTree.lineWidth=2;
       ctxTree.beginPath();
@@ -215,7 +224,6 @@ function animateTechTree(){
       ctxTree.lineTo(line.x2,line.y2);
       ctxTree.stroke();
 
-      // Draw moving pulse
       const px = line.x1 + (line.x2-line.x1)*line.progress;
       const py = line.y1 + (line.y2-line.y1)*line.progress + Math.sin(Date.now()/200)*5;
       ctxTree.strokeStyle='rgba(0,255,255,0.8)';
@@ -224,7 +232,6 @@ function animateTechTree(){
       ctxTree.lineTo(px,py);
       ctxTree.stroke();
 
-      // Draw the glowing dot
       ctxTree.fillStyle='rgba(0,255,255,1)';
       ctxTree.beginPath();
       ctxTree.arc(px,py,4,0,Math.PI*2);
