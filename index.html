@@ -9,7 +9,7 @@
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#121212; color:#eee; scroll-behavior:smooth; overflow-x:hidden; position:relative; }
 canvas { position:fixed; top:0; left:0; z-index:-1; }
 
-header { position:sticky; top:0; background: rgba(18,18,18,0.85); backdrop-filter:blur(10px); z-index:100; padding:1.5rem 1rem; text-align:center; border-bottom: 1px solid rgba(255,255,255,0.05); cursor:pointer; }
+header { position:sticky; top:0; background: rgba(18,18,18,0.85); backdrop-filter:blur(10px); z-index:100; padding:1.5rem 1rem; text-align:center; cursor:pointer; }
 h1 { font-size:2.5rem; color:#0ff; text-shadow:0 0 10px #0ff; transition: 0.3s; }
 h1:hover { color:#00bfa5; text-shadow:0 0 20px #00bfa5; }
 
@@ -126,7 +126,6 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
   </div>
 </section>
 
-<!-- Hidden Rickroll section -->
 <section id="rickroll" style="display:none;">
   <iframe id="rickIframe" width="560" height="315" src="" title="Rickroll" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </section>
@@ -148,78 +147,80 @@ document.getElementById('title').addEventListener('click', () => {
 });
 
 // Sections fade-in/out
-const sections=document.querySelectorAll('section');
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
     if(entry.isIntersecting) entry.target.classList.add('visible');
     else entry.target.classList.remove('visible');
   });
-},{threshold:0.2});
-sections.forEach(sec=>observer.observe(sec));
+}, {threshold:0.2});
+sections.forEach(sec => observer.observe(sec));
 
 // Starfield background
-const canvasStar=document.getElementById('starfield');
-const ctxStar=canvasStar.getContext('2d');
-let stars=[], w,h;
+const canvasStar = document.getElementById('starfield');
+const ctxStar = canvasStar.getContext('2d');
+let stars=[], w, h;
 function resizeStars(){ w=canvasStar.width=window.innerWidth; h=canvasStar.height=window.innerHeight; }
-window.addEventListener('resize',resizeStars); resizeStars();
+window.addEventListener('resize', resizeStars); resizeStars();
 for(let i=0;i<200;i++){ stars.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2}); }
 function animateStars(){ ctxStar.clearRect(0,0,w,h); stars.forEach(s=>{ ctxStar.beginPath(); ctxStar.arc(s.x,s.y,s.r,0,Math.PI*2); ctxStar.fillStyle='#0ff'; ctxStar.fill(); s.x+=s.dx; s.y+=s.dy; if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0; }); requestAnimationFrame(animateStars); }
 animateStars();
 
-// Tech tree hub-and-spoke with animated lines
-const nodes=document.querySelectorAll('.node');
-const canvasTree=document.getElementById('connections');
-const ctxTree=canvasTree.getContext('2d');
+// Animated hub-and-spoke tech tree
+const nodes = document.querySelectorAll('.node');
+const canvasTree = document.getElementById('connections');
+const ctxTree = canvasTree.getContext('2d');
 
-function drawAnimatedHub(){
-  canvasTree.width=canvasTree.offsetWidth;
-  canvasTree.height=canvasTree.offsetHeight;
+function drawAnimatedHub() {
+  canvasTree.width = canvasTree.offsetWidth;
+  canvasTree.height = canvasTree.offsetHeight;
   ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
 
-  nodes.forEach((n,i)=>{ setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200); });
+  nodes.forEach((n,i) => setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200));
 
-  const center=[...nodes].find(n=>n.dataset.name==='Megamind');
-  if(center){
-    const cx=center.offsetLeft+center.offsetWidth/2;
-    const cy=center.offsetTop+center.offsetHeight/2;
+  const centerNode = [...nodes].find(n => n.dataset.name==='Megamind');
+  if(!centerNode) return;
+  const cx = centerNode.offsetLeft + centerNode.offsetWidth/2;
+  const cy = centerNode.offsetTop + centerNode.offsetHeight/2;
 
-    nodes.forEach(n=>{
-      if(n.dataset.name!=='Megamind'){
-        const x=n.offsetLeft+n.offsetWidth/2;
-        const y=n.offsetTop+n.offsetHeight/2;
-        let progress=0;
-        function animateLine(){
-          progress+=0.02;
-          if(progress>1) progress=1;
-          const dx=cx + (x-cx)*progress;
-          const dy=cy + (y-cy)*progress;
-          ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
-          // redraw previous lines
-          nodes.forEach(other=>{
-            if(other.dataset.name!=='Megamind'){
-              const ox=other.offsetLeft+other.offsetWidth/2;
-              const oy=other.offsetTop+other.offsetHeight/2;
-              ctxTree.strokeStyle='rgba(0,255,255,0.3)';
-              ctxTree.lineWidth=2;
-              ctxTree.beginPath();
-              ctxTree.moveTo(cx,cy);
-              ctxTree.lineTo(ox,oy);
-              ctxTree.stroke();
-            }
-          });
-          ctxTree.strokeStyle='rgba(0,255,255,0.8)';
+  nodes.forEach(n => {
+    if(n.dataset.name==='Megamind') return;
+    const x = n.offsetLeft + n.offsetWidth/2;
+    const y = n.offsetTop + n.offsetHeight/2;
+    let progress = 0;
+
+    function animateLine(){
+      progress += 0.02;
+      if(progress > 1) progress = 1;
+
+      // draw already fully drawn lines
+      ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
+      nodes.forEach(other => {
+        if(other.dataset.name!=='Megamind' && other!==n){
+          const ox = other.offsetLeft + other.offsetWidth/2;
+          const oy = other.offsetTop + other.offsetHeight/2;
+          ctxTree.strokeStyle='rgba(0,255,255,0.3)';
           ctxTree.lineWidth=2;
           ctxTree.beginPath();
           ctxTree.moveTo(cx,cy);
-          ctxTree.lineTo(dx,dy);
+          ctxTree.lineTo(ox,oy);
           ctxTree.stroke();
-          if(progress<1) requestAnimationFrame(animateLine);
         }
-        animateLine();
-      }
-    });
-  }
+      });
+
+      // draw current line
+      ctxTree.strokeStyle='rgba(0,255,255,0.8)';
+      ctxTree.lineWidth=2;
+      ctxTree.beginPath();
+      ctxTree.moveTo(cx,cy);
+      ctxTree.lineTo(cx + (x-cx)*progress, cy + (y-cy)*progress);
+      ctxTree.stroke();
+
+      if(progress < 1) requestAnimationFrame(animateLine);
+    }
+
+    setTimeout(animateLine, 200);
+  });
 }
 
 window.addEventListener('load', drawAnimatedHub);
