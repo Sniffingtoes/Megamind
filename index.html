@@ -1,5 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Megamind | Home</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#121212; color:#eee; scroll-behavior:smooth; overflow-x:hidden; position:relative; }
+canvas { position:fixed; top:0; left:0; z-index:-1; }
+
+header { position:sticky; top:0; background: rgba(18,18,18,0.85); backdrop-filter:blur(10px); z-index:100; padding:1.5rem 1rem; text-align:center; cursor:pointer; }
+h1 { font-size:2.5rem; color:#0ff; text-shadow:0 0 10px #0ff; transition: 0.3s; }
+h1:hover { color:#00bfa5; text-shadow:0 0 20px #00bfa5; }
+
+#game-status {
+  display:inline-block;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:red;
+  box-shadow: 0 0 10px red;
+  margin-left:10px;
+  vertical-align:middle;
+}
+
+main { max-width:1000px; margin:auto; padding:2rem 1rem; }
+
+section { margin:5rem 0; padding:3rem 2rem; border-radius:20px; background: rgba(30,30,30,0.7); backdrop-filter: blur(8px); box-shadow: 0 10px 25px rgba(0,255,255,0.05); opacity:0; transform:translateY(30px); transition: opacity 1s ease, transform 1s ease; position:relative; overflow:hidden; }
+section.visible { opacity:1; transform:translateY(0); }
+
+h2 { margin-bottom:1rem; color:#0ff; text-shadow:0 0 6px #0ff; font-size:2rem; }
+p, li { font-size:1.1rem; line-height:1.6; }
+
+.button { display:inline-block; background:#0ff; color:#121212; padding:0.75rem 1.25rem; border-radius:12px; text-decoration:none; margin-top:1rem; font-weight:bold; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; box-shadow:0 0 15px rgba(0,255,255,0.3); }
+.button:hover { transform:translateY(-3px) rotate(-2deg); background:#00bfa5; box-shadow:0 0 25px rgba(0,255,255,0.5); }
+
+.skills-list { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:1rem; }
+.skills-list li { background: rgba(0,255,255,0.1); padding:0.5rem 1rem; border-radius:15px; transition: transform 0.3s, background 0.3s, box-shadow 0.3s; }
+.skills-list li:hover { transform: scale(1.15); background: rgba(0,255,255,0.3); box-shadow:0 0 20px rgba(0,255,255,0.3); }
+
+footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); backdrop-filter: blur(10px); color:#888; }
+
+.shape { position:absolute; border-radius:50%; opacity:0.1; animation: float 15s infinite ease-in-out; pointer-events:none; }
+@keyframes float { 0%,100%{transform:translateY(0) translateX(0) rotate(0deg);} 50%{transform:translateY(-40px) translateX(20px) rotate(180deg);} }
+
+#tech-tree { position:relative; width:100%; height:700px; margin-top:2rem; }
+.node { position:absolute; text-align:center; opacity:0; transform:scale(0.5); transition:transform 0.5s, opacity 0.5s; }
+.node img { width:80px; height:80px; border-radius:50%; border:2px solid #0ff; transition: transform 0.3s, box-shadow 0.3s; }
+.node img:hover { transform: scale(1.15); box-shadow:0 0 25px rgba(0,255,255,0.5); }
+.node p { color:#0ff; font-weight:bold; margin-top:0.5rem; }
+.node.central img { width:100px; height:100px; border:3px solid #0ff; }
+#connections { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+
+@media(max-width:600px){
+  h1{ font-size:2rem; }
+  h2{ font-size:1.5rem; }
+  .skills-list{ flex-direction:column; }
+  #tech-tree{ height:900px; }
+  .node img{ width:60px; height:60px; }
+  .node.central img{ width:80px; height:80px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<header id="title">
+  <h1>Megamind <span id="game-status"></span></h1>
+</header>
+
+<main>
+<section id="home">
+  <div class="shape" style="width:80px;height:80px;top:10%;left:5%;background:#0ff;"></div>
+  <div class="shape" style="width:100px;height:100px;top:20%;right:10%;background:#ff00ff;"></div>
+  <div class="shape" style="width:50px;height:50px;top:30%;left:50%;background:#00ff00;"></div>
+  <h2>Hello, I am Megamind</h2>
+  <p>Welcome! I like making games in Unity, especially Gorilla Tag fangames and other VR projects.</p>
+  <a href="#about" class="button">Learn More</a>
+</section>
+
+<section id="about">
+  <div class="shape" style="width:60px;height:60px;top:15%;right:15%;background:#0ff;"></div>
+  <h2>About Me</h2>
+  <p>I’m Megamind — a Unity developer who enjoys building immersive games. I mainly make Gorilla Tag fangames and experiment with multiplayer VR experiences.</p>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <ul class="skills-list">
+    <li>Unity & C# (beginner)</li>
+    <li>VR Game Development</li>
+    <li>Multiplayer Mechanics</li>
+    <li>Game Design Basics</li>
+  </ul>
+</section>
+
+<section id="fun">
+  <h2>Fun Projects</h2>
+  <ul>
+    <li>Unity and VR game projects 🕹️</li>
+    <li>Gorilla Tag fangames 🦍</li>
+    <li>Experimenting with multiplayer physics and interactions</li>
+    <li>Learning new techniques and tools continuously</li>
+    <li>Wildbound (game) - <span style="color:red; font-weight:bold;">Inactive</span></li>
+  </ul>
+</section>
+
+<section id="connect">
+  <h2>Connect</h2>
+  <div id="tech-tree">
+    <div class="node central" data-name="Megamind" style="top:300px; left:50%;">
+      <img src="https://cdn.discordapp.com/avatars/1343000539348074537/cf9b20be488a3dd31bde557177c52249.webp?size=128" alt="Megamind" loading="lazy">
+      <p>Megamind</p>
+    </div>
+    <div class="node" data-name="DragonGT" style="top:150px; left:70%;">
+      <img src="https://cdn.discordapp.com/avatars/1157882164260655217/eae6c1e5f94b6a2133d44c94b828f67e.webp?size=128" alt="DragonGT" loading="lazy">
+      <p>DragonGT</p>
+    </div>
+    <div class="node" data-name="Edwin" style="top:100px; left:30%;">
+      <img src="https://cdn.discordapp.com/avatars/1374073000294355088/afd66be8626d0fc6753c4855e47a2ecb.webp?size=128" alt="Edwin" loading="lazy">
+      <p>Edwin</p>
+    </div>
+    <div class="node" data-name="Sh8rkyVR" style="top:450px; left:30%;">
+      <img src="https://cdn.discordapp.com/avatars/1322769189001363541/3ced537959c3f15d61a446448488cfee.webp?size=128" alt="Sh8rkyVR" loading="lazy">
+      <p>Sh8rkyVR</p>
+    </div>
+    <div class="node" data-name="Bob" style="top:450px; left:70%;">
+      <img src="https://cdn.discordapp.com/avatars/1335683003552366702/ab91a1202a9b65c802fd4704f8acc75d.webp?size=128" alt="Bob" loading="lazy">
+      <p>Bob</p>
+    </div>
+    <div class="node" data-name="Moonlem" style="top:350px; left:85%;">
+      <img src="https://cdn.discordapp.com/avatars/1189949917830058064/8dc82dbb46cf3aa19ddaaf195c3c7c4e.webp?size=128" alt="Moonlem" loading="lazy">
+      <p>Moonlem</p>
+    </div>
+    <canvas id="connections"></canvas>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>© 2025 Megamind | Built with ❤️</p>
+</footer>
+
 <script>
-// Tech-tree connections
+// Sections fade-in
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add('visible');
+    else entry.target.classList.remove('visible');
+  });
+}, {threshold:0.2});
+sections.forEach(sec => observer.observe(sec));
+
+// Starfield
+const canvasStar = document.getElementById('starfield');
+const ctxStar = canvasStar.getContext('2d');
+let stars=[], w, h;
+function resizeStars(){ w=canvasStar.width=window.innerWidth; h=canvasStar.height=window.innerHeight; }
+window.addEventListener('resize', resizeStars); resizeStars();
+for(let i=0;i<200;i++){ stars.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.5, dx:(Math.random()-0.5)*0.2, dy:(Math.random()-0.5)*0.2}); }
+function animateStars(){ ctxStar.clearRect(0,0,w,h); stars.forEach(s=>{ ctxStar.beginPath(); ctxStar.arc(s.x,s.y,s.r,0,Math.PI*2); ctxStar.fillStyle='#0ff'; ctxStar.fill(); s.x+=s.dx; s.y+=s.dy; if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0; }); requestAnimationFrame(animateStars); }
+animateStars();
+
+// Animated tech-tree with moving pulse
 const nodes = document.querySelectorAll('.node');
 const canvasTree = document.getElementById('connections');
 const ctxTree = canvasTree.getContext('2d');
@@ -13,10 +179,8 @@ function animateTechTree(){
   const cx = centerNode.offsetLeft + centerNode.offsetWidth/2;
   const cy = centerNode.offsetTop + centerNode.offsetHeight/2;
 
-  // Fade-in nodes
   nodes.forEach((n,i)=> setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200));
 
-  // Define lines from center to others
   const lines = [...nodes].filter(n => n.dataset.name!=='Megamind').map(n => {
     const x = n.offsetLeft + n.offsetWidth/2;
     const y = n.offsetTop + n.offsetHeight/2;
@@ -27,11 +191,9 @@ function animateTechTree(){
     ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
 
     lines.forEach(line => {
-      // Increment line progress
       line.progress += 0.02;
       if(line.progress>1) line.progress=1;
 
-      // Draw background line
       ctxTree.strokeStyle='rgba(0,255,255,0.2)';
       ctxTree.lineWidth=2;
       ctxTree.beginPath();
@@ -39,7 +201,6 @@ function animateTechTree(){
       ctxTree.lineTo(line.x2,line.y2);
       ctxTree.stroke();
 
-      // Draw moving pulse
       const px = line.x1 + (line.x2-line.x1)*line.progress;
       const py = line.y1 + (line.y2-line.y1)*line.progress + Math.sin(Date.now()/200)*5;
       ctxTree.strokeStyle='rgba(0,255,255,0.8)';
@@ -48,7 +209,6 @@ function animateTechTree(){
       ctxTree.lineTo(px,py);
       ctxTree.stroke();
 
-      // Draw glowing dot
       ctxTree.fillStyle='rgba(0,255,255,1)';
       ctxTree.beginPath();
       ctxTree.arc(px,py,4,0,Math.PI*2);
@@ -64,3 +224,5 @@ function animateTechTree(){
 window.addEventListener('load', animateTechTree);
 window.addEventListener('resize', animateTechTree);
 </script>
+</body>
+</html>
