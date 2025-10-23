@@ -128,7 +128,7 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
 
 <!-- Hidden Rickroll section -->
 <section id="rickroll" style="display:none;">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" title="Rickroll" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="rickIframe" width="560" height="315" src="" title="Rickroll" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </section>
 
 </main>
@@ -141,7 +141,9 @@ footer { text-align:center; padding:2rem 1rem; background: rgba(18,18,18,0.85); 
 // Click title → Rickroll
 document.getElementById('title').addEventListener('click', () => {
   const rick = document.getElementById('rickroll');
-  rick.style.display='block';
+  const iframe = document.getElementById('rickIframe');
+  iframe.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+  rick.style.display = 'block';
   rick.scrollIntoView({behavior:'smooth'});
 });
 
@@ -165,47 +167,63 @@ for(let i=0;i<200;i++){ stars.push({x:Math.random()*w, y:Math.random()*h, r:Math
 function animateStars(){ ctxStar.clearRect(0,0,w,h); stars.forEach(s=>{ ctxStar.beginPath(); ctxStar.arc(s.x,s.y,s.r,0,Math.PI*2); ctxStar.fillStyle='#0ff'; ctxStar.fill(); s.x+=s.dx; s.y+=s.dy; if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0; }); requestAnimationFrame(animateStars); }
 animateStars();
 
-// Tech tree hub-and-spoke with animated pulsing lines
+// Tech tree hub-and-spoke with animated lines
 const nodes=document.querySelectorAll('.node');
 const canvasTree=document.getElementById('connections');
 const ctxTree=canvasTree.getContext('2d');
 
-function drawHubNetwork(){
+function drawAnimatedHub(){
   canvasTree.width=canvasTree.offsetWidth;
   canvasTree.height=canvasTree.offsetHeight;
   ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
 
   nodes.forEach((n,i)=>{ setTimeout(()=>{ n.style.opacity=1; n.style.transform='scale(1)'; }, i*200); });
 
-  const centerNode=[...nodes].find(n=>n.dataset.name==='Megamind');
-  if(centerNode){
-    const cx=centerNode.offsetLeft+centerNode.offsetWidth/2;
-    const cy=centerNode.offsetTop+centerNode.offsetHeight/2;
+  const center=[...nodes].find(n=>n.dataset.name==='Megamind');
+  if(center){
+    const cx=center.offsetLeft+center.offsetWidth/2;
+    const cy=center.offsetTop+center.offsetHeight/2;
 
     nodes.forEach(n=>{
       if(n.dataset.name!=='Megamind'){
         const x=n.offsetLeft+n.offsetWidth/2;
         const y=n.offsetTop+n.offsetHeight/2;
-        // animated pulsing
-        let alpha=0;
-        const animateLine=()=>{
-          ctxTree.strokeStyle=`rgba(0,255,255,${0.3+0.3*Math.sin(alpha)})`;
+        let progress=0;
+        function animateLine(){
+          progress+=0.02;
+          if(progress>1) progress=1;
+          const dx=cx + (x-cx)*progress;
+          const dy=cy + (y-cy)*progress;
+          ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
+          // redraw previous lines
+          nodes.forEach(other=>{
+            if(other.dataset.name!=='Megamind'){
+              const ox=other.offsetLeft+other.offsetWidth/2;
+              const oy=other.offsetTop+other.offsetHeight/2;
+              ctxTree.strokeStyle='rgba(0,255,255,0.3)';
+              ctxTree.lineWidth=2;
+              ctxTree.beginPath();
+              ctxTree.moveTo(cx,cy);
+              ctxTree.lineTo(ox,oy);
+              ctxTree.stroke();
+            }
+          });
+          ctxTree.strokeStyle='rgba(0,255,255,0.8)';
           ctxTree.lineWidth=2;
           ctxTree.beginPath();
           ctxTree.moveTo(cx,cy);
-          ctxTree.lineTo(x,y);
+          ctxTree.lineTo(dx,dy);
           ctxTree.stroke();
-          alpha+=0.05;
-          requestAnimationFrame(animateLine);
-        };
+          if(progress<1) requestAnimationFrame(animateLine);
+        }
         animateLine();
       }
     });
   }
 }
 
-window.addEventListener('load', drawHubNetwork);
-window.addEventListener('resize', drawHubNetwork);
+window.addEventListener('load', drawAnimatedHub);
+window.addEventListener('resize', drawAnimatedHub);
 </script>
 </body>
 </html>
