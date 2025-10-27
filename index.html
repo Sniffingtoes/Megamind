@@ -6,54 +6,39 @@
 <title>Megamind | Home</title>
 <style>
 /* Reset & Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: radial-gradient(circle at top, #050510 0%, #000010 100%);
-  color: #eee;
+  background: linear-gradient(to bottom, #1a1a2e, #162447);
+  color: #f0f0f0;
   scroll-behavior: smooth;
   overflow-x: hidden;
   position: relative;
-}
-
-/* Starfield Background */
-canvas#starfield {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: transparent;
 }
 
 /* Header */
 header {
   position: sticky;
   top: 0;
-  background: rgba(10, 10, 25, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(25, 25, 40, 0.9);
+  backdrop-filter: blur(10px);
   padding: 1.2rem;
   text-align: center;
   z-index: 100;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
 }
 
 h1 {
   font-size: 2.5rem;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff;
+  color: #ffb347;
+  text-shadow: 0 0 15px #ffb347;
   transition: 0.3s;
 }
 
 h1:hover {
-  color: #00bfa5;
-  text-shadow: 0 0 25px #00bfa5;
+  color: #ffcc33;
+  text-shadow: 0 0 30px #ffcc33;
 }
 
 /* Main Content */
@@ -67,9 +52,9 @@ section {
   margin: 4rem 0;
   padding: 2rem 1.5rem;
   border-radius: 20px;
-  background: rgba(20, 20, 50, 0.6);
+  background: rgba(30, 30, 60, 0.7);
   backdrop-filter: blur(10px);
-  box-shadow: 0 10px 25px rgba(0, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(255, 165, 0, 0.05);
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 1s ease, transform 1s ease;
@@ -83,8 +68,8 @@ section.visible {
 }
 
 h2 {
-  color: #0ff;
-  text-shadow: 0 0 6px #0ff;
+  color: #ffb347;
+  text-shadow: 0 0 6px #ffb347;
   margin-bottom: 1rem;
   font-size: 1.8rem;
 }
@@ -97,19 +82,19 @@ p, li {
 /* Buttons */
 .button {
   display: inline-block;
-  background: linear-gradient(90deg, #0ff, #00bfa5);
+  background: linear-gradient(90deg, #ffb347, #ffcc33);
   color: #121212;
   padding: 0.8rem 1.3rem;
   border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
   transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
 }
 
 .button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+  box-shadow: 0 0 25px rgba(255, 165, 0, 0.7);
 }
 
 /* Skills List */
@@ -121,7 +106,7 @@ p, li {
 }
 
 .skills-list li {
-  background: rgba(0, 255, 255, 0.1);
+  background: rgba(255, 165, 0, 0.15);
   padding: 0.6rem 1rem;
   border-radius: 12px;
   transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
@@ -129,8 +114,8 @@ p, li {
 
 .skills-list li:hover {
   transform: scale(1.1);
-  background: rgba(0, 255, 255, 0.25);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  background: rgba(255, 165, 0, 0.3);
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
 }
 
 /* Floating Shapes */
@@ -155,39 +140,6 @@ p, li {
   margin-top: 2rem;
 }
 
-.node {
-  position: absolute;
-  text-align: center;
-  opacity: 0;
-  transform: scale(0.5);
-  transition: transform 0.5s, opacity 0.5s;
-}
-
-.node img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid #0ff;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.node img:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
-}
-
-.node p {
-  color: #0ff;
-  font-weight: bold;
-  margin-top: 0.4rem;
-}
-
-.node.central img {
-  width: 100px;
-  height: 100px;
-  border: 3px solid #0ff;
-}
-
 #connections {
   position: absolute;
   top: 0;
@@ -195,16 +147,51 @@ p, li {
   width: 100%;
   height: 100%;
   pointer-events: none;
+  z-index: 0; /* lines behind nodes */
+}
+
+.node {
+  position: absolute;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: transform 0.5s, opacity 0.5s;
+  z-index: 1; /* nodes on top of lines */
+}
+
+.node img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #ffb347;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.node img:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(255, 165, 0, 0.6);
+}
+
+.node p {
+  color: #ffb347;
+  font-weight: bold;
+  margin-top: 0.4rem;
+}
+
+.node.central img {
+  width: 100px;
+  height: 100px;
+  border: 3px solid #ffb347;
 }
 
 /* Footer */
 footer {
   text-align: center;
   padding: 2rem 1rem;
-  background: rgba(10, 10, 25, 0.8);
+  background: rgba(25, 25, 40, 0.85);
   backdrop-filter: blur(12px);
-  color: #888;
-  box-shadow: 0 -5px 20px rgba(0, 255, 255, 0.05);
+  color: #aaa;
+  box-shadow: 0 -5px 20px rgba(255, 165, 0, 0.05);
 }
 
 /* Mobile */
@@ -222,24 +209,22 @@ footer {
 </head>
 <body>
 
-<canvas id="starfield"></canvas>
-
 <header>
   <h1>Megamind</h1>
 </header>
 
 <main>
 <section id="home">
-  <div class="shape" style="width:80px;height:80px;top:10%;left:5%;background:#0ff;"></div>
-  <div class="shape" style="width:100px;height:100px;top:20%;right:10%;background:#ff00ff;"></div>
-  <div class="shape" style="width:50px;height:50px;top:30%;left:50%;background:#00ff00;"></div>
+  <div class="shape" style="width:80px;height:80px;top:10%;left:5%;background:#ffb347;"></div>
+  <div class="shape" style="width:100px;height:100px;top:20%;right:10%;background:#ff5733;"></div>
+  <div class="shape" style="width:50px;height:50px;top:30%;left:50%;background:#33ff57;"></div>
   <h2>Hello, I am Megamind</h2>
   <p>Welcome! I like making games in Unity, especially Gorilla Tag fangames and other VR projects.</p>
   <a href="#about" class="button">Learn More</a>
 </section>
 
 <section id="about">
-  <div class="shape" style="width:60px;height:60px;top:15%;right:15%;background:#0ff;"></div>
+  <div class="shape" style="width:60px;height:60px;top:15%;right:15%;background:#ffb347;"></div>
   <h2>About Me</h2>
   <p>I’m Megamind — a Unity developer (beginner), I mainly make Gorilla Tag fangames.</p>
 </section>
@@ -265,6 +250,7 @@ footer {
 <section id="Connections">
   <h2>Connections</h2>
   <div id="tech-tree">
+    <canvas id="connections"></canvas>
     <div class="node central" data-name="Megamind" style="top:300px; left:50%;">
       <img src="https://cdn.discordapp.com/avatars/1343000539348074537/cf9b20be488a3dd31bde557177c52249.webp?size=128" alt="Megamind">
       <p>Megamind</p>
@@ -289,7 +275,6 @@ footer {
       <img src="https://cdn.discordapp.com/avatars/1189949917830058064/8dc82dbb46cf3aa19ddaaf195c3c7c4e.webp?size=128" alt="Moonlem">
       <p>Moonlem</p>
     </div>
-    <canvas id="connections"></canvas>
   </div>
 </section>
 </main>
@@ -308,37 +293,7 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.2 });
 sections.forEach(sec => observer.observe(sec));
 
-// Starfield
-const canvas = document.getElementById('starfield');
-const ctx = canvas.getContext('2d');
-let stars = [], w, h;
-function resizeStars() {
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeStars);
-resizeStars();
-for (let i = 0; i < 200; i++) {
-  stars.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.5, dx: (Math.random() - 0.5) * 0.2, dy: (Math.random() - 0.5) * 0.2 });
-}
-function animateStars() {
-  ctx.clearRect(0, 0, w, h);
-  stars.forEach(s => {
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = '#0ff';
-    ctx.fill();
-    s.x += s.dx; s.y += s.dy;
-    if (s.x < 0) s.x = w;
-    if (s.x > w) s.x = 0;
-    if (s.y < 0) s.y = h;
-    if (s.y > h) s.y = 0;
-  });
-  requestAnimationFrame(animateStars);
-}
-animateStars();
-
-// Tech Tree
+// Tech Tree Lines
 const nodes = document.querySelectorAll('.node');
 const canvasTree = document.getElementById('connections');
 const ctxTree = canvasTree.getContext('2d');
@@ -366,7 +321,7 @@ function animateTechTree() {
       line.progress += 0.02;
       if (line.progress > 1) line.progress = 1;
 
-      ctxTree.strokeStyle = 'rgba(0,255,255,0.2)';
+      ctxTree.strokeStyle = 'rgba(255,165,0,0.2)';
       ctxTree.lineWidth = 2;
       ctxTree.beginPath();
       ctxTree.moveTo(line.x1, line.y1);
@@ -376,7 +331,7 @@ function animateTechTree() {
       const px = line.x1 + (line.x2 - line.x1) * line.progress;
       const py = line.y1 + (line.y2 - line.y1) * line.progress + Math.sin(Date.now() / 200) * 3;
 
-      ctxTree.strokeStyle = 'rgba(0,255,255,0.8)';
+      ctxTree.strokeStyle = 'rgba(255,165,0,0.8)';
       ctxTree.beginPath();
       ctxTree.moveTo(line.x1, line.y1);
       ctxTree.lineTo(px, py);
@@ -384,14 +339,13 @@ function animateTechTree() {
 
       ctxTree.beginPath();
       ctxTree.arc(px, py, 3, 0, Math.PI * 2);
-      ctxTree.fillStyle = '#0ff';
+      ctxTree.fillStyle = '#ffb347';
       ctxTree.fill();
     });
     requestAnimationFrame(animateLines);
   }
   animateLines();
 }
-
 window.addEventListener('load', animateTechTree);
 window.addEventListener('resize', animateTechTree);
 </script>
