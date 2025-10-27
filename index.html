@@ -8,14 +8,14 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-  background:radial-gradient(circle at top,#0a0a1a 0%,#060610 100%);
+  background:radial-gradient(circle at top,#050510 0%,#000010 100%);
   color:#eee;
   scroll-behavior:smooth;
   overflow-x:hidden;
   position:relative;
 }
 
-/* background stars */
+/* starfield background */
 canvas#starfield{
   position:fixed;
   top:0;left:0;
@@ -27,20 +27,20 @@ canvas#starfield{
 header{
   position:sticky;
   top:0;
-  background:rgba(15,15,40,0.8);
-  backdrop-filter:blur(15px);
+  background:rgba(10,10,25,0.85);
+  backdrop-filter:blur(12px);
   padding:1.2rem;
   text-align:center;
   z-index:100;
   box-shadow:0 0 15px rgba(0,255,255,0.2);
 }
 h1{
-  font-size:2.3rem;
+  font-size:2.5rem;
   color:#0ff;
   text-shadow:0 0 10px #0ff;
   transition:.3s;
 }
-h1:hover{color:#00bfa5;text-shadow:0 0 20px #00bfa5;}
+h1:hover{color:#00bfa5;text-shadow:0 0 25px #00bfa5;}
 
 main{max-width:1000px;margin:auto;padding:1.5rem;}
 
@@ -48,9 +48,9 @@ section{
   margin:4rem 0;
   padding:2rem 1.5rem;
   border-radius:20px;
-  background:rgba(20,20,40,0.7);
+  background:rgba(20,20,50,0.6);
   backdrop-filter:blur(10px);
-  box-shadow:0 10px 30px rgba(0,255,255,0.05);
+  box-shadow:0 10px 25px rgba(0,255,255,0.05);
   opacity:0;
   transform:translateY(40px);
   transition:opacity 1s ease,transform 1s ease;
@@ -59,7 +59,7 @@ section{
 }
 section.visible{opacity:1;transform:translateY(0);}
 h2{color:#0ff;text-shadow:0 0 6px #0ff;margin-bottom:1rem;font-size:1.8rem;}
-p,li{font-size:1.05rem;line-height:1.6;}
+p,li{font-size:1.1rem;line-height:1.6;}
 
 .button{
   display:inline-block;
@@ -96,7 +96,7 @@ p,li{font-size:1.05rem;line-height:1.6;}
   box-shadow:0 0 20px rgba(0,255,255,0.3);
 }
 
-/* shapes */
+/* floating shapes */
 .shape{
   position:absolute;
   border-radius:50%;
@@ -125,8 +125,8 @@ p,li{font-size:1.05rem;line-height:1.6;}
 footer{
   text-align:center;
   padding:2rem 1rem;
-  background:rgba(15,15,40,0.8);
-  backdrop-filter:blur(15px);
+  background:rgba(10,10,25,0.8);
+  backdrop-filter:blur(12px);
   color:#888;
   box-shadow:0 -5px 20px rgba(0,255,255,0.05);
 }
@@ -223,62 +223,83 @@ footer{
 </footer>
 
 <script>
-// fade-in sections
+// Fade-in sections
 const sections=document.querySelectorAll('section');
-const obs=new IntersectionObserver(e=>{e.forEach(x=>x.isIntersecting?x.target.classList.add('visible'):x.target.classList.remove('visible'));},{threshold:.2});
-sections.forEach(s=>obs.observe(s));
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add('visible');
+    else entry.target.classList.remove('visible');
+  });
+},{threshold:.2});
+sections.forEach(sec=>observer.observe(sec));
 
-// starfield
-const c=document.getElementById('starfield'),ctx=c.getContext('2d');let stars=[],w,h;
-function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight;}
-window.addEventListener('resize',resize);resize();
+// Starfield
+const canvas=document.getElementById('starfield');
+const ctx=canvas.getContext('2d');
+let stars=[],w,h;
+function resizeStars(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+window.addEventListener('resize',resizeStars);resizeStars();
 for(let i=0;i<200;i++){stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5,dx:(Math.random()-.5)*0.2,dy:(Math.random()-.5)*0.2});}
-function drawStars(){
+function animateStars(){
   ctx.clearRect(0,0,w,h);
   stars.forEach(s=>{
-    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fillStyle='#0ff';ctx.fill();
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle='#0ff';
+    ctx.fill();
     s.x+=s.dx;s.y+=s.dy;
     if(s.x<0)s.x=w;if(s.x>w)s.x=0;if(s.y<0)s.y=h;if(s.y>h)s.y=0;
   });
-  requestAnimationFrame(drawStars);
+  requestAnimationFrame(animateStars);
 }
-drawStars();
+animateStars();
 
-// connections animation
+// Tech tree
 const nodes=document.querySelectorAll('.node');
-const cnv=document.getElementById('connections');
-const ctx2=cnv.getContext('2d');
-function drawConnections(){
-  cnv.width=cnv.offsetWidth;cnv.height=cnv.offsetHeight;
-  const center=[...nodes].find(n=>n.dataset.name==='Megamind');
-  const cx=center.offsetLeft+center.offsetWidth/2,cy=center.offsetTop+center.offsetHeight/2;
+const canvasTree=document.getElementById('connections');
+const ctxTree=canvasTree.getContext('2d');
+function animateTechTree(){
+  canvasTree.width=canvasTree.offsetWidth;
+  canvasTree.height=canvasTree.offsetHeight;
+  ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
+  const centerNode=[...nodes].find(n=>n.dataset.name==='Megamind');
+  const cx=centerNode.offsetLeft+centerNode.offsetWidth/2;
+  const cy=centerNode.offsetTop+centerNode.offsetHeight/2;
   nodes.forEach((n,i)=>setTimeout(()=>{n.style.opacity=1;n.style.transform='scale(1)';},i*200));
   const lines=[...nodes].filter(n=>n.dataset.name!=='Megamind').map(n=>{
-    return{
-      x1:cx,y1:cy,
-      x2:n.offsetLeft+n.offsetWidth/2,
-      y2:n.offsetTop+n.offsetHeight/2,
-      p:0
-    };
+    const x=n.offsetLeft+n.offsetWidth/2;
+    const y=n.offsetTop+n.offsetHeight/2;
+    return{x1:cx,y1:cy,x2:x,y2:y,progress:0};
   });
-  function animate(){
-    ctx2.clearRect(0,0,cnv.width,cnv.height);
-    lines.forEach(l=>{
-      l.p+=.02;if(l.p>1)l.p=1;
-      ctx2.strokeStyle='rgba(0,255,255,.2)';ctx2.lineWidth=2;
-      ctx2.beginPath();ctx2.moveTo(l.x1,l.y1);ctx2.lineTo(l.x2,l.y2);ctx2.stroke();
-      const px=l.x1+(l.x2-l.x1)*l.p,py=l.y1+(l.y2-l.y1)*l.p+Math.sin(Date.now()/200)*3;
-      ctx2.strokeStyle='rgba(0,255,255,.8)';
-      ctx2.beginPath();ctx2.moveTo(l.x1,l.y1);ctx2.lineTo(px,py);ctx2.stroke();
-      ctx2.beginPath();ctx2.arc(px,py,3,0,Math.PI*2);ctx2.fillStyle='#0ff';ctx2.fill();
+  function animateLines(){
+    ctxTree.clearRect(0,0,canvasTree.width,canvasTree.height);
+    lines.forEach(line=>{
+      line.progress+=0.02;
+      if(line.progress>1) line.progress=1;
+      ctxTree.strokeStyle='rgba(0,255,255,0.2)';
+      ctxTree.lineWidth=2;
+      ctxTree.beginPath();
+      ctxTree.moveTo(line.x1,line.y1);
+      ctxTree.lineTo(line.x2,line.y2);
+      ctxTree.stroke();
+      const px=line.x1+(line.x2-line.x1)*line.progress;
+      const py=line.y1+(line.y2-line.y1)*line.progress+Math.sin(Date.now()/200)*3;
+      ctxTree.strokeStyle='rgba(0,255,255,0.8)';
+      ctxTree.beginPath();
+      ctxTree.moveTo(line.x1,line.y1);
+      ctxTree.lineTo(px,py);
+      ctxTree.stroke();
+      ctxTree.beginPath();
+      ctxTree.arc(px,py,3,0,Math.PI*2);
+      ctxTree.fillStyle='#0ff';
+      ctxTree.fill();
     });
-    requestAnimationFrame(animate);
+    requestAnimationFrame(animateLines);
   }
-  animate();
+  animateLines();
 }
-window.addEventListener('load',drawConnections);
-window.addEventListener('resize',drawConnections);
+window.addEventListener('load',animateTechTree);
+window.addEventListener('resize',animateTechTree);
 </script>
 </body>
 </html>
