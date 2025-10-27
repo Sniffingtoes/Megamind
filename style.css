@@ -1,13 +1,27 @@
-/* Reset & base */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Reset & Base */
+html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #f5f7fa;
   color: #333;
-  scroll-behavior: smooth;
 }
 
+/* Starfield background */
+canvas#starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: transparent;
+}
+
+/* Header */
 header {
   background: linear-gradient(90deg, #007acc, #005a99);
   color: white;
